@@ -1,0 +1,248 @@
+/* Color1 - White */
+.theme1 header,
+.theme1 header a,
+.theme1 .full.color3,
+.theme1 .color3 .tagline,
+.theme1 .color2,
+.theme1 .slides_container .caption,
+.theme1 .flex-direction-nav li a:before,
+.theme1 .color1 .btn-small,
+.theme1 .color1 .btn-big,
+.theme1 .item h2,
+.theme1 .item .inner:before,
+.theme1 .filters a:hover,
+.theme1 .filters li.active a,
+.theme1 .color2 .filters a,
+.theme1 .color2 .isotope-loading,
+.theme1 .color2 .isotope-loading a,
+.theme1 .color3 .isotope-loading,
+.theme1 .color3 .isotope-loading a,
+.theme1 .color1 .search,
+.theme1 .color1 .search a,
+.theme1 .color1 .search input,
+.theme1 .color1 form input,
+.theme1 .color1 form textarea,
+.theme1 .color1 ul.categories a,
+.theme1 .color2 .pagination a,
+.theme1 footer ul.social a,
+.theme1 .color1 .accordion .acc-title {
+    color: #FFF !important; /* !important because footer icon color */
+}
+
+.theme1 ::selection {
+    color: #FFF !important;
+}
+
+.theme1 ::-moz-selection {
+    /* has to be separated from ::selection */
+    color: #FFF;
+}
+
+.theme1 .color1,
+.theme1 .color1 .arrow,
+.theme1 .color1 .iconic > :first-child:before,
+.theme1 .color1 .iconic:after,
+.theme1 .color2 .btn-small:hover,
+.theme1 .color2 .btn-big:hover,
+.theme1 .color3 .btn-small:hover,
+.theme1 .color3 .btn-big:hover,
+.theme1 .color3 ul.categories a,
+.theme1 .color2 form input,
+.theme1 .color2 form textarea,
+.theme1 .color2 .pagination .current,
+.theme1 .color2 .pagination a:hover,
+.theme1 .color3 .pagination a:hover,
+.theme1 .color3 .pagination .current,
+.theme1 .color2 .accordion .acc-title,
+.theme1 .color3 .accordion .acc-title {
+    background: #FFF;
+}
+
+.theme1 .color2 .iconic > :first-child:before,
+.theme1 .color2 .iconic:before,
+.theme1 .color3 .iconic > :first-child:before,
+.theme1 .color3 .iconic:before,
+.theme1 .color2 .iconic h1:after, .theme1 .color2 .iconic h2:after, .theme1 .color2 .iconic h3:after, .theme1 .color2 .iconic h4:after,
+.theme1 .color3 .iconic h1:after, .theme1 .color3 .iconic h2:after, .theme1 .color3 .iconic h3:after, .theme1 .color2 .iconic h4:after {
+    border-color: #FFF;
+}
+
+.theme1 .color2 .iconic:after,
+.theme1 header nav ul li a.sub:before,
+.theme1 .color3 .iconic:after {
+    border-color: #FFF transparent;
+}
+
+/* Color2 - Yellow */
+.theme1 .color3.tagline span,
+.theme1 .color3 a,
+.theme1 .color1 a,
+.theme1 .color1 h1 span, .theme1 .color3 h1 span,
+.theme1 .color1 h2 span, .theme1 .color3 h2 span,
+.theme1 .color1 h3 span, .theme1 .color3 h3 span,
+.theme1 .color1 h4 span, .theme1 .color3 h4 span,
+.theme1 .color1 h5 span, .theme1 .color3 h5 span,
+.theme1 .color1 h6 span, .theme1 .color3 h6 span,
+.theme1 .color1 .tags a:hover,
+.theme1 .color2 .btn-small,
+.theme1 .color2 .btn-big,
+.theme1 .color3 .iconic:before,
+.theme1 .color1 .tagline span,
+.theme1 .color1 ul.tags:before,
+.theme1 .color1 .isotope-loading span,
+.theme1 .color3 .isotope-loading span,
+.theme1 .color1 ul.social a:hover,
+.theme1 .color3 .google-map,
+.theme1 .color2 .post-content span,
+.theme1 .comments span:before,
+.theme1 .widget_search form:after,
+.theme1 .color2 .accordion .acc-title {
+    color: #00B2CC;
+}
+
+.theme1 header.color2,
+.theme1 .color2,
+.theme1 .color2 .arrow,
+.theme1 .color2 .iconic > :first-child:before,
+.theme1 .color2 .iconic:after,
+.theme1 .color2 .iconic:after,
+.theme1 .flex-direction-nav li a,
+.theme1 .color1 .btn-small,
+.theme1 .color1 .btn-big,
+.theme1 .color3 .btn-small,
+.theme1 .color3 .btn-big,
+.theme1 .color3 ul.categories a:hover,
+.theme1 .color1 ul.categories a:hover,
+.theme1 .item .inner:before,
+.theme1 .color1 .filters ul li.active > a,
+.theme1 .color1 .filters ul li a:hover,
+.theme1 .color3 .filters ul li.active > a,
+.theme1 .color3 .filters ul li a:hover,
+.theme1 .color1 .search, .theme1 .color1 .search input,
+.theme1 .audiojs .progress,
+.theme1 .color1 .pagination a:hover,
+.theme1 .color1 .pagination .current,
+.theme1 .color3 .pagination span,
+.theme1 .color3 .pagination a,
+.theme1 footer.color3 ul.social a:hover,
+.theme1 footer.color3 ul.social li.active a:hover,
+.theme1 .header-widgets.color3 ul.social a:hover,
+.theme1 .header-widgets.color3 ul.social li.active a:hover,
+.theme1 .color1 .accordion .active .acc-title,
+.theme1 .color1 .accordion .acc-title:hover,
+.theme1 .color3 .accordion .active .acc-title,
+.theme1 .color3 .accordion .acc-title:hover {
+    background: #00B2CC;
+}
+
+.theme1 ::selection {
+    background: #00B2CC;
+}
+
+.theme1 ::-moz-selection {
+    /* has to be separated from ::selection */
+    background: #00B2CC;
+}
+
+.theme1 .color1 .iconic > :first-child:before,
+.theme1 .color1 .iconic:before,
+.theme1 .color1 .iconic h1:after, .theme1 .color1 .iconic h2:after, .theme1 .color1 .iconic h3:after, .theme1 .color1 .iconic h4:after {
+    border-color: #00B2CC;
+}
+
+.theme1 .color1 .iconic:after {
+    border-color: #00B2CC transparent;
+}
+
+/* Color3 - Brown */
+body.theme1,
+.theme1 .color2 a,
+.theme1 .color2.tagline span,
+.theme1 header .title span,
+.theme1 .color2 h1 span,
+.theme1 .color2 h2 span,
+.theme1 .color2 h3 span,
+.theme1 .color2 h4 span,
+.theme1 .color2 h5 span,
+.theme1 .color2 h6 span,
+.theme1 .color1 .iconic > :first-child:before,
+.theme1 .color1 .tags a,
+.theme1 .color3 .btn-small,
+.theme1 .color3 .btn-big,
+.theme1 .color3 ul.categories a,
+.theme1 .color2 .iconic:before,
+.theme1 .color1 .tagline,
+.theme1 .color2 .tagline span,
+.theme1 .color1 .filters a,
+.theme1 .color1 .isotope-loading,
+.theme1 .color1 .isotope-loading a,
+.theme1 .color2 .isotope-loading span,
+.theme1 .color1 ul.social a,
+.theme1 .color1 .pagination a:hover,
+.theme1 .color1 .pagination .current,
+.theme1 .color2 .pagination a:hover,
+.theme1 .color2 .pagination .current,
+.theme1 .color2 .pagination span,
+.theme1 .color3 .pagination a,
+.theme1 .color3 .pagination a:hover,
+.theme1 .color3 .pagination .current,
+.theme1 footer.color3 ul.social a:hover,
+.theme1 footer.color3 ul.social li.active a:hover,
+.theme1 .header-widgets.color3 ul.social a:hover,
+.theme1 .header-widgets.color3 ul.social li.active a:hover,
+.theme1 .color3 .accordion .acc-title {
+    color: #312a1e;
+}
+
+.theme1 .color2 .pagination a:hover {
+    color: #312a1e !important;
+}
+
+.theme1 header nav ul li.active > a,
+.theme1 header nav ul li a:hover,
+.theme1 .full.color3,
+.theme1 .color3 .arrow,
+.theme1 .taglineimg .caption-bg,
+.theme1 .color3 .arrow,
+.theme1 .color3 .iconic > :first-child:before,
+.theme1 .color3 .iconic:after,
+.theme1 .flex-direction-nav li a:hover,
+.theme1 footer.color2 ul.social a:hover,
+.theme1 footer.color2 ul.social li.active a:hover,
+.theme1 .header-widgets.color2 ul.social a:hover,
+.theme1 .header-widgets.color2 ul.social li.active a:hover,
+.theme1 .color1 .btn-small:hover,
+.theme1 .color1 .btn-big:hover,
+.theme1 .color2 .btn-small,
+.theme1 .color2 .btn-big,
+.theme1 .item .post-content,
+.theme1 .color2 .filters ul li.active > a,
+.theme1 .color2 .filters ul li a:hover,
+.theme1 .color3 .google-map,
+.theme1 .color1 form input,
+.theme1 .color1 form textarea,
+.theme1 .color1 ul.categories a,
+.theme1 .color1 .pagination span,
+.theme1 .color1 .pagination a,
+.theme1 .color2 .pagination span,
+.theme1 .color2 .pagination a,
+.theme1 .color1 .accordion .acc-title,
+.theme1 .color2 .accordion .active .acc-title,
+.theme1 .color2 .accordion .acc-title:hover {
+    background: #312a1e;
+}
+
+.theme1 header,
+.theme1 footer {
+    border-color: #312a1e;
+}
+
+.theme1 header nav ul li a.sub:hover:before,
+.theme1 header nav ul li.active > a:before {
+    border-color: #312a1e transparent;
+}
+
+.theme1 .slides_container .caption {
+    background: #312a1e;
+    background: rgba(49, 42, 30, 0.5);
+}
