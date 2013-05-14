@@ -76,9 +76,16 @@ require_once dirname(__FILE__) . '/clients/GoogleAnalyticsAccountSelector.php';
 <section class="onerow full color1">
 <div class="onepcssgrid-1200">
     <?php
+
     if ((isset($GoogleAnalyticsAccount)) && (sizeof($GoogleAnalyticsAccount->getProperties() > 0)) && $GoogleAnalyticsAccount != null) {
 
-        if (isset($_GET['costs']) && strlen($_GET['costs']) > 0) {
+        require_once dirname(__FILE__) . '/dashboard/dashboard_init.php';
+        $dashboard_init = new Dashboard_init();
+        $dashboard_init->showDashboard();
+
+        //if (isset($_GET['costs']) && strlen($_GET['costs']) > 0) {
+
+            echo 'wajow werkt dit?';
 
             // 30 day time filter
             $from = date('Y-m-d', time() - 30 * 24 * 60 * 60);
@@ -92,8 +99,8 @@ require_once dirname(__FILE__) . '/clients/GoogleAnalyticsAccountSelector.php';
             $orderData = $OrderPerMarketingChannel->getOrdersPerChannel(); // all the order data
 
             // Costs this orgnisation has, per month now
-            $costs = $_GET['costs'];
-
+            //$costs = $_GET['costs'];
+             $costs = '5000';
             // Calulator
             $calc = new Calculator();
             $calc->setCosts($costs);
@@ -107,17 +114,25 @@ require_once dirname(__FILE__) . '/clients/GoogleAnalyticsAccountSelector.php';
                 // set and reset basecosts
                 $basecosts = 0;
 
+
                 if ($source['source'] == "beslist.nl" || $source['source'] == "kieskeurig.nl" || $source['source'] == "beslistslimmershoppen") {
                     if ($source['source'] == "beslist.nl") {
                         $clickCosts = 125; // specific costs
-                        echo "<div class=\"col6\" style=\"border-right: 1px #000 solid\">";
+                        //echo "<div class=\"col6\" style=\"border-right: 1px #000 solid\">";
                     }
 
                     if ($source['source'] == "kieskeurig.nl") {
                         $clickCosts = 250; // specific cost
-                        echo "<div class=\"col6 last\">";
+                        //echo "<div class=\"col6 last\">";
                     }
 
+                }
+            }
+
+
+
+
+                    /*
                     $orders = array();
                     $productsOrderd = 0;
 
@@ -218,10 +233,7 @@ require_once dirname(__FILE__) . '/clients/GoogleAnalyticsAccountSelector.php';
 
                         echo "<h1 class=\"ic\">Producten</h1><br />";
 
-                        /*echo "<pre>";
-                        print_r($arrays);
-                        echo "</pre>";
-                        die();*/
+
 
                         ksort($arrays);
 
@@ -258,7 +270,8 @@ require_once dirname(__FILE__) . '/clients/GoogleAnalyticsAccountSelector.php';
                     }
                 }
             }
-        } else {
+        }
+        else {
             ?>
             <form name="costs" method="get">
                 <h3>Vaste lasten per maand:</h3>
@@ -272,7 +285,7 @@ require_once dirname(__FILE__) . '/clients/GoogleAnalyticsAccountSelector.php';
                 <input type="hidden" name="profileId" value="<?php echo $_GET['profileId']; ?>"/>
             </form>
         <?php
-        }
+        }*/
     }
     ?>
 </div>
