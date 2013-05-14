@@ -19,4 +19,10 @@ define('DEVELOPER_KEY', 'AIzaSyBiyh3JZfDQ_ZFnx0hSKAayNG2IKzfRi4U');
 define('API_USER', 'Hugo');
 define('API_KEY', 'Ka0yoiAOJhoifqap0oinhlkqfn0oe8vh0234gtQ965WGEWROIUHJWEROIGNRESD98OHL234TWP98YWERFGNLKAERGO87HKJN234TPHJKZWGRHLI');
 define('API_HOST', 'http://magento.presteren.nu/api/soap/?wsdl');
+
+//Database settings
+define('DB_HOST', '');
+define('DB_NAME', '');
+define('DB_USERNAME', '');
+define('DB_PASS', '');
 ?>
