@@ -1,6 +1,5 @@
 <?
-
-class Dashboard{
+class Dashboard {
 
     public $title = 'Dashboard :-)';
     public $aIsPositivePrice;

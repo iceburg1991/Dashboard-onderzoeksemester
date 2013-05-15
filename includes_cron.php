@@ -21,9 +21,6 @@ require_once dirname(__FILE__) . '/GoogleClientLib/Google_Client.php';
 require_once dirname(__FILE__) . '/GoogleClientLib/contrib/Google_AnalyticsService.php';
 require_once dirname(__FILE__) . '/clients/GoogleClient.php';
 
-// Google Account, property and profile
-require_once dirname(__FILE__) . '/classes/GoogleAnalyticsAccount.class.php';
-
 // Dimension & metrics
 require_once dirname(__FILE__) . '/classes/GoogleAnalyticsMetricsParser.class.php';
 require_once dirname(__FILE__) . '/GoogleAnalyticsMetrics/TransactionRevenueMetrics.metrics.php';

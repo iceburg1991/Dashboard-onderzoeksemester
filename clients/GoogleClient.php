@@ -28,11 +28,24 @@ if (isset($_GET['logout'])) { // logout: destroy token
 if (isset($_GET['code'])) { // we received the positive auth callback, get the token and store it in session
     $gClient->authenticate();
     $_SESSION['token'] = $gClient->getAccessToken();
+    //header("Location: cron.php");
 }
 
 if (isset($_SESSION['token'])) { // extract token from session and configure client
     $token = $_SESSION['token'];
     $gClient->setAccessToken($token);
+    $jsonObject = json_decode($token);
+
+    // Settings object?
+    if ($jsonObject->refresh_token) {
+        //$settings = R::dispense('settings');
+        $settings->google_analytics_refresh_token = $jsonObject->refresh_token;
+        R::store($settings, 1);
+    }
+}
+if ($settings->google_analytics_refresh_token) {
+    $gClient->refreshToken($settings->google_analytics_refresh_token);
+    //$gClient->setAccessToken();
 }
 
 if (!$gClient->getAccessToken()) { // auth call to google
