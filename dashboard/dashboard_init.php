@@ -7,7 +7,10 @@ class Dashboard_init {
     public function showDashboard(){
         $dashboard = new Dashboard();
 
-        $main = new Template('dashboard.html.php', array('title' => $dashboard->title));
+        $main = new Template('dashboard.html.php', array(
+            'title' => $dashboard->title,
+            'isPositiveProfit' => $dashboard->aIsPositiveProfit
+        ));
         return $main->render();
     }
 }

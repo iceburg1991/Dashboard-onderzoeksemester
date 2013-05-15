@@ -85,7 +85,6 @@ require_once dirname(__FILE__) . '/clients/GoogleAnalyticsAccountSelector.php';
 
         //if (isset($_GET['costs']) && strlen($_GET['costs']) > 0) {
 
-            echo 'wajow werkt dit?';
 
             // 30 day time filter
             $from = date('Y-m-d', time() - 30 * 24 * 60 * 60);
