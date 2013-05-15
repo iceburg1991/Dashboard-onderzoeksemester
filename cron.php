@@ -41,13 +41,17 @@ foreach ($TransactionRevenueMetrics->getRevenuePerSource() as $source) {
 
     if ($marketingchannel == null) {
         $marketingchannel = R::dispense('marketingchannel');
+        $marketingchannel->name = $source['source'];
+        $channelId = R::store($marketingchannel);
+    } else {
+        $channelId = $marketingchannel->getID();
     }
 
     $marketingchannelrevenue = R::dispense('marketingchannelrevenue');
     $marketingchannelrevenue->channel_revenue = $source['transactionRevenue'];
     $marketingchannelrevenue->timestamp = $now;
-
-    $marketingchannel->marketingchannelrevenue[] = $marketingchannelrevenue;
+    $marketingchannelrevenue->marketingchannel_id = $channelId;
+    R::store($marketingchannelrevenue);
 
     if (array_key_exists($source['source'], $orderData))
     {
@@ -62,22 +66,26 @@ foreach ($TransactionRevenueMetrics->getRevenuePerSource() as $source) {
                                         'name = ?',
                                          array($mProduct['name']));
 
-
                 if ($product == null) {
                     $product = R::dispense('product');
                     $product->name = $mProduct['name'];
                     $product->sku = $mProduct['sku'];
+                    $productId = R::store($product);
 
                     $productprice = R::dispense('productprice');
                     $productprice->base_cost = $mProduct['base_cost'];
                     $productprice->price = $mProduct['price'];
                     $productprice->tax_amount = $mProduct['tax_amount'];
                     $productprice->timestamp = $now;
-                    $productprice->product = $product;
+                    $productprice->product_id = $productId;
+                    R::store($productprice);;
 
                     $productquantity = R::dispense('productquantity');
                     $productquantity->quantity = $mProduct['qty_ordered'];
                     $productquantity->timestamp = $now;
+                    $productquantity->product_id = $productId;
+                    $productquantity->marketingchannel_id = $channelId;
+                    R::store($productquantity);
                 } else {
                     $productprices = $product->with('SORT BY `timestamp` DESC LIMIT 1')->productprice;
                     foreach ($productprices as $pProductprice) {
@@ -109,17 +117,8 @@ foreach ($TransactionRevenueMetrics->getRevenuePerSource() as $source) {
                                                                         ":timestamp" => $now
                                                                     ));
                     $productquantity->product = $product;
-
-
                 }
-
-
-
-
-                $marketingchannel->productquantity[] = $productquantity;
-
             }
         }
     }
-    R::store($marketingchannel);
 }
