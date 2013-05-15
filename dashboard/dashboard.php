@@ -1,23 +1,26 @@
 <?
+require_once dirname(__FILE__) . '/Template.php';
 class Dashboard {
 
     public $title = 'Dashboard :-)';
-    public $aIsPositivePrice;
+    public $totalProfitArray;
+    public $googleChart;
 
     public function __construct(){
-        $this->isPositiveProfit();
+        $this->setTotalProfitArray();
+        $this->createGoogleChart();
     }
-    private function isPositiveProfit(){
-        $result = false;
+    private function setTotalProfitArray(){
         $price = 5000;
 
-        if($price > 0){
-            $result = true;
-        }
-        $this->aIsPositiveProfit = array(
-            'kieskeurig.nl' => $result
+        $this->totalProfitArray = array(
+            'kieskeurig.nl' => $price
         );
         return;
+    }
+    private function createGoogleChart(){
+        $this->googleChart= get_object_vars($this->googleChart);
+        $this->googleChart = new Template('_googleChart.html.php', $this->googleChart);
     }
 }
 ?>
