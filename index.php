@@ -23,9 +23,9 @@ require_once dirname(__FILE__) . '/includes/nav.php';
 
     //if ((isset($GoogleAnalyticsAccount)) && (sizeof($GoogleAnalyticsAccount->getProperties() > 0)) && $GoogleAnalyticsAccount != null) {
 
-       //require_once dirname(__FILE__) . '/dashboard/dashboard_init.php';
-        //$dashboard_init = new Dashboard_init();
-        //$dashboard_init->showDashboard();
+        require_once dirname(__FILE__) . '/dashboard/dashboard_init.php';
+        $dashboard_init = new Dashboard_init();
+        $dashboard_init->showDashboard();
 
         //if (isset($_GET['costs']) && strlen($_GET['costs']) > 0) {
 
