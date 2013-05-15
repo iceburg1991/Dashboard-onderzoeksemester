@@ -9,6 +9,9 @@
 // Config file
 require_once dirname(__FILE__) . '/config.php';
 
+// MySQL
+require_once dirname(__FILE__) . '/db_connection.php';
+
 // Google Client and Google Analytics Service
 require_once dirname(__FILE__) . '/GoogleClientLib/Google_Client.php';
 require_once dirname(__FILE__) . '/GoogleClientLib/contrib/Google_AnalyticsService.php';
@@ -16,11 +19,6 @@ require_once dirname(__FILE__) . '/clients/GoogleClient.php';
 
 // Google Account, property and profile
 require_once dirname(__FILE__) . '/classes/GoogleAnalyticsAccount.class.php';
-require_once dirname(__FILE__) . '/classes/Profile.class.php';
-require_once dirname(__FILE__) . '/classes/Property.class.php';
-
-// Google Analytics accounts selector
-require_once dirname(__FILE__) . '/classes/GoogleAnalyticsAccountSelector.class.php';
 
 // Dimension & metrics
 require_once dirname(__FILE__) . '/classes/GoogleAnalyticsMetricsParser.class.php';
