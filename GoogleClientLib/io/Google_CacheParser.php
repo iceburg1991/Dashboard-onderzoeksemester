@@ -32,7 +32,9 @@ class Google_CacheParser
      * Check if an HTTP request can be cached by a private local cache.
      *
      * @static
+     *
      * @param Google_HttpRequest $resp
+     *
      * @return bool True if the request is cacheable.
      * False if the request is uncacheable.
      */
@@ -58,7 +60,9 @@ class Google_CacheParser
      * Check if an HTTP response can be cached by a private local cache.
      *
      * @static
+     *
      * @param Google_HttpRequest $resp
+     *
      * @return bool True if the response is cacheable.
      * False if the response is un-cacheable.
      */
@@ -110,7 +114,9 @@ class Google_CacheParser
 
     /**
      * @static
+     *
      * @param Google_HttpRequest $resp
+     *
      * @return bool True if the HTTP response is considered to be expired.
      * False if it is considered to be fresh.
      */
@@ -168,6 +174,7 @@ class Google_CacheParser
      * Determine if a cache entry should be revalidated with by the origin.
      *
      * @param Google_HttpRequest $response
+     *
      * @return bool True if the entry is expired, else return false.
      */
     public static function mustRevalidate(Google_HttpRequest $response)

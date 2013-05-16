@@ -11,7 +11,7 @@ require_once dirname(__FILE__) . '/config.php';
 
 // RedBean PHP
 require('RedbeanPHPLib/rb.php');
-R::setup('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME . '','' . DB_USERNAME . '','' . DB_PASS . '');
+R::setup('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME . '', '' . DB_USERNAME . '', '' . DB_PASS . '');
 
 // Settings
 $settings = R::load('settings', 1);

@@ -13,9 +13,11 @@ error_reporting(-1);
 // Config file
 require_once dirname(__FILE__) . '/includes_cron.php';
 
-// 30 day time filter
-$from = date('Y-m-d', time() - 24 * 60 * 60);
+// 1 day time filter
+$from = date('Y-m-d', time() - 30 * 24 * 60 * 60);
 $to = date('Y-m-d');
+
+// For timestamp
 $now = date('Y-m-d H:i:s');
 
 // Fetches all the Revenue metrics
@@ -35,9 +37,9 @@ $orderData = $OrderPerMarketingChannel->getOrdersPerChannel(); // all the order 
 // Loop trough the all sources
 foreach ($TransactionRevenueMetrics->getRevenuePerSource() as $source) {
 
-    $marketingchannel = R::findOne( 'marketingchannel',
-                                    'name = ?',
-                                    array($source['source']));
+    $marketingchannel = R::findOne('marketingchannel',
+        'name = ?',
+        array($source['source']));
 
     if ($marketingchannel == null) {
         $marketingchannel = R::dispense('marketingchannel');
@@ -53,18 +55,21 @@ foreach ($TransactionRevenueMetrics->getRevenuePerSource() as $source) {
     $marketingchannelrevenue->marketingchannel_id = $channelId;
     R::store($marketingchannelrevenue);
 
-    if (array_key_exists($source['source'], $orderData))
-    {
+    if (array_key_exists($source['source'], $orderData)) {
         foreach ($orderData[$source['source']] as $orderKey => $orderValue) {
 
             $magentoOrderDetails = $mClient->getSalesOrderDetails($orderKey);
             $magentoOrder = new MagentoOrder($magentoOrderDetails['order_id'], $magentoOrderDetails['base_shipping_amount']);
 
+            echo "<b>".$source['source'] . "</b><br /><br />";
+
             foreach ($magentoOrderDetails['items'] as $mProduct) {
 
-                $product = R::findOne(  'product',
-                                        'name = ?',
-                                         array($mProduct['name']));
+                echo $mProduct['name'] . "<br />";
+
+                $product = R::findOne('product',
+                    'sku = ?',
+                    array($mProduct['sku']));
 
                 if ($product == null) {
                     $product = R::dispense('product');
@@ -73,50 +78,69 @@ foreach ($TransactionRevenueMetrics->getRevenuePerSource() as $source) {
                     $productId = R::store($product);
 
                     $productprice = R::dispense('productprice');
+                    $productprice->product_id = $productId;
                     $productprice->base_cost = $mProduct['base_cost'];
                     $productprice->price = $mProduct['price'];
-                    $productprice->tax_amount = $mProduct['tax_amount'];
+                    $productprice->tax_amount = ($mProduct['tax_amount'] / $mProduct['qty_ordered']);
                     $productprice->timestamp = $now;
-                    $productprice->product_id = $productId;
                     R::store($productprice);;
 
                     $productquantity = R::dispense('productquantity');
-                    $productquantity->quantity = $mProduct['qty_ordered'];
-                    $productquantity->timestamp = $now;
                     $productquantity->product_id = $productId;
                     $productquantity->marketingchannel_id = $channelId;
+                    $productquantity->quantity = $mProduct['qty_ordered'];
+                    $productquantity->timestamp = $now;
                     R::store($productquantity);
                 } else {
-                    $productprices = $product->with('SORT BY `timestamp` DESC LIMIT 1')->productprice;
+                    $productId = $product->id;
+
+                    $productprices = R::find('productprice',
+                        ' product_id = :product_id ORDER BY :sort DESC LIMIT 1',
+                        array(
+                            ':product_id' => $productId,
+                            ':sort'       => 'timestamp'
+                        ));
+
                     foreach ($productprices as $pProductprice) {
-                       $bool = false;
-                       if ($pProductprice->base_cost != $mProduct['base_cost']) {
-                           $basecost = $mProduct['base_cost'];
-                           $bool = true;
-                       } elseif ($pProductprice->price != $mProduct['price']) {
-                           $price = $mProduct['price'];
-                           $bool = true;
-                       } elseif ($pProductprice->tax_amount != $mProduct['tax_amount']) {
-                           $tax_amount = $mProduct['tax_amount'];
-                           $bool = true;
-                       }
+
+                        $basecost = $pProductprice->base_cost;
+                        $price = $pProductprice->price;
+                        $tax_amount = $pProductprice->tax_amount;
+
+                        $bool = false;
+                        if ($pProductprice->base_cost != $mProduct['base_cost']) {
+                            $basecost = $mProduct['base_cost'];
+                            $bool = true;
+                        } elseif ($pProductprice->price != $mProduct['price']) {
+                            $price = $mProduct['price'];
+                            $bool = true;
+                        } elseif ($pProductprice->tax_amount != $mProduct['tax_amount']) {
+                            $tax_amount = ($mProduct['tax_amount'] / $mProduct['qty_ordered']);
+                            $bool = true;
+                        }
 
                         if ($bool) {
                             $productprice = R::dispense('productprice');
-                            $productprice->basecost = $basecost;
+                            $productprice->product_id = $productId;
+                            $productprice->base_cost = $basecost;
                             $productprice->price = $price;
                             $productprice->tax_amount = $tax_amount;
-                            $productprice->product = $product;
+                            $productprice->timestamp = $now;
+                            R::store($productprice);
+                        }
+
+                        $productquantities = R::find('productquantity', 'product_id = :product_id AND timestamp = :timestamp AND marketingchannel_id = :channel_id',
+                            array(
+                                ":product_id" => $productId,
+                                ":timestamp"  => $now,
+                                ":channel_id" => $channelId
+                            ));
+
+                        foreach ($productquantities as $productquantity) {
+                            $productquantity->quantity += $mProduct['qty_ordered'];
+                            R::store($productquantity, $productquantity->id);
                         }
                     }
-
-                    $productquantity = R::find('productquantity', 'product_id = :product_id,
-                                                                    timestamp = :timestamp',
-                                                                    array(
-                                                                       ":product_id" => $product->id,
-                                                                        ":timestamp" => $now
-                                                                    ));
-                    $productquantity->product = $product;
                 }
             }
         }

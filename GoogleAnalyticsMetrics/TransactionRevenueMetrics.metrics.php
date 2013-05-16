@@ -17,10 +17,10 @@ class TransactionRevenueMetrics extends GoogleAnalyticsMetricsParser
     private $_revenuePerSource = array();
 
     /**
-     * @param $service
-     * @param $profileId
+     * @param                         $service
+     * @param                         $profileId
      * @param Google_AnalyticsService $from
-     * @param $to
+     * @param                         $to
      */
     public function __construct(Google_AnalyticsService $service, $profileId, $from, $to)
     {

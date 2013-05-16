@@ -19,6 +19,5 @@ class Efficieny
     private $_revenue;
 
 
-
 }
 

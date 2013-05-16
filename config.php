@@ -8,16 +8,16 @@
  */
 
 // Google Console Credentials
-define('ACCESS_TYPE',       'offline');
-define('APPLICATION_NAME',  'Dashboard proof of concept');
-define('CLIENT_ID',         '814565602276.apps.googleusercontent.com');
-define('CLIENT_SECRET',     'EkMosZD60pI5At0yATGtgp7M');
-define('REDIRECT_URI',      'http://' . $_SERVER["HTTP_HOST"] . $_SERVER['PHP_SELF']);
-define('DEVELOPER_KEY',     'AIzaSyBiyh3JZfDQ_ZFnx0hSKAayNG2IKzfRi4U');
+define('ACCESS_TYPE', 'offline');
+define('APPLICATION_NAME', 'Dashboard proof of concept');
+define('CLIENT_ID', '814565602276.apps.googleusercontent.com');
+define('CLIENT_SECRET', 'EkMosZD60pI5At0yATGtgp7M');
+define('REDIRECT_URI', 'http://' . $_SERVER["HTTP_HOST"] . $_SERVER['PHP_SELF']);
+define('DEVELOPER_KEY', 'AIzaSyBiyh3JZfDQ_ZFnx0hSKAayNG2IKzfRi4U');
 
 //Database settings
-define('DB_HOST',           'localhost');
-define('DB_NAME',           'ocrtxndf_dashboard');
-define('DB_USERNAME',       'ocrtxndf_dash');
-define('DB_PASS',           '2ZjQCuTR');
+define('DB_HOST', 'localhost');
+define('DB_NAME', 'ocrtxndf_dashboard');
+define('DB_USERNAME', 'ocrtxndf_dash');
+define('DB_PASS', '2ZjQCuTR');
 ?>

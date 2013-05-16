@@ -29,10 +29,11 @@ class ProductRevenueMetrics extends GoogleAnalyticsMetricsParser
 
     /**
      * Constructor, passes on the service variable to the parser
+     *
      * @param Google_AnalyticsService $service
-     * @param $profileId
+     * @param                         $profileId
      * @param Google_AnalyticsService $from
-     * @param $to
+     * @param                         $to
      */
     function __construct(Google_AnalyticsService $service, $profileId, $from, $to)
     {

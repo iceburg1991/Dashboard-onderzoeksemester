@@ -27,10 +27,10 @@ class Google_HttpRequest
 {
     const USER_AGENT_SUFFIX = "google-api-php-client/0.6.0";
     private $batchHeaders = array(
-        'Content-Type' => 'application/http',
+        'Content-Type'              => 'application/http',
         'Content-Transfer-Encoding' => 'binary',
-        'MIME-Version' => '1.0',
-        'Content-Length' => ''
+        'MIME-Version'              => '1.0',
+        'Content-Length'            => ''
     );
 
     protected $url;
@@ -124,7 +124,7 @@ class Google_HttpRequest
 
     /**
      * @param array $headers The HTTP response headers
-     * to be normalized.
+     *                       to be normalized.
      */
     public function setResponseHeaders($headers)
     {
@@ -138,6 +138,7 @@ class Google_HttpRequest
 
     /**
      * @param string $key
+     *
      * @return array|boolean Returns the requested HTTP clients or
      * false if unavailable.
      */
@@ -183,6 +184,7 @@ class Google_HttpRequest
 
     /**
      * @param string $key
+     *
      * @return array|boolean Returns the requested HTTP clients or
      * false if unavailable.
      */
@@ -220,7 +222,7 @@ class Google_HttpRequest
 
     /**
      * @param string $method Set he HTTP Method and normalize
-     * it to upper-case, as required by HTTP.
+     *                       it to upper-case, as required by HTTP.
      *
      */
     public function setRequestMethod($method)
@@ -230,7 +232,7 @@ class Google_HttpRequest
 
     /**
      * @param array $headers The HTTP request headers
-     * to be set and normalized.
+     *                       to be set and normalized.
      */
     public function setRequestHeaders($headers)
     {
@@ -251,6 +253,7 @@ class Google_HttpRequest
 
     /**
      * Set the User-Agent Header.
+     *
      * @param string $userAgent The User-Agent.
      */
     public function setUserAgent($userAgent)
@@ -301,6 +304,7 @@ class Google_HttpRequest
 
     /**
      * @param string $id
+     *
      * @return string A string representation of the HTTP Request.
      */
     public function toBatchString($id)

@@ -28,17 +28,17 @@ class Google_ServiceResource
 {
     // Valid query parameters that work, but don't appear in discovery.
     private $stackParameters = array(
-        'alt' => array('type' => 'string', 'location' => 'query'),
-        'boundary' => array('type' => 'string', 'location' => 'query'),
-        'fields' => array('type' => 'string', 'location' => 'query'),
-        'trace' => array('type' => 'string', 'location' => 'query'),
-        'userIp' => array('type' => 'string', 'location' => 'query'),
-        'userip' => array('type' => 'string', 'location' => 'query'),
-        'quotaUser' => array('type' => 'string', 'location' => 'query'),
-        'file' => array('type' => 'complex', 'location' => 'body'),
-        'data' => array('type' => 'string', 'location' => 'body'),
-        'mimeType' => array('type' => 'string', 'location' => 'clients'),
-        'uploadType' => array('type' => 'string', 'location' => 'query'),
+        'alt'         => array('type' => 'string', 'location' => 'query'),
+        'boundary'    => array('type' => 'string', 'location' => 'query'),
+        'fields'      => array('type' => 'string', 'location' => 'query'),
+        'trace'       => array('type' => 'string', 'location' => 'query'),
+        'userIp'      => array('type' => 'string', 'location' => 'query'),
+        'userip'      => array('type' => 'string', 'location' => 'query'),
+        'quotaUser'   => array('type' => 'string', 'location' => 'query'),
+        'file'        => array('type' => 'complex', 'location' => 'body'),
+        'data'        => array('type' => 'string', 'location' => 'body'),
+        'mimeType'    => array('type' => 'string', 'location' => 'clients'),
+        'uploadType'  => array('type' => 'string', 'location' => 'query'),
         'mediaUpload' => array('type' => 'complex', 'location' => 'query'),
     );
 
@@ -65,6 +65,7 @@ class Google_ServiceResource
     /**
      * @param $name
      * @param $arguments
+     *
      * @return Google_HttpRequest|array
      * @throws Google_Exception
      */

@@ -1,12 +1,14 @@
 <?php
-include dirname(__FILE__) .'/Template.php';
+include dirname(__FILE__) . '/Template.php';
 require_once dirname(__FILE__) . '/dashboard.php';
 
-class Dashboard_init {
+class Dashboard_init
+{
 
-    public function showDashboard(){
+    public function showDashboard()
+    {
         $dashboard = new Dashboard();
-        $dashboard= get_object_vars($dashboard);
+        $dashboard = get_object_vars($dashboard);
         $main = new Template('dashboard.html.php', $dashboard);
         return $main->render();
     }
@@ -21,4 +23,5 @@ class Dashboard_init {
         return $main->render();
     }*/
 }
+
 ?>
