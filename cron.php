@@ -61,84 +61,83 @@ foreach ($TransactionRevenueMetrics->getRevenuePerSource() as $source) {
             $magentoOrderDetails = $mClient->getSalesOrderDetails($orderKey);
             $magentoOrder = new MagentoOrder($magentoOrderDetails['order_id'], $magentoOrderDetails['base_shipping_amount']);
 
-            echo "<b>".$source['source'] . "</b><br /><br />";
-
             foreach ($magentoOrderDetails['items'] as $mProduct) {
 
-                echo $mProduct['name'] . "<br />";
+                if ($mProduct['base_cost'] > 0 && $mProduct['price'] > 0) {
 
-                $product = R::findOne('product',
-                    'sku = ?',
-                    array($mProduct['sku']));
+                    $product = R::findOne('product',
+                        'sku = ?',
+                        array($mProduct['sku']));
 
-                if ($product == null) {
-                    $product = R::dispense('product');
-                    $product->name = $mProduct['name'];
-                    $product->sku = $mProduct['sku'];
-                    $productId = R::store($product);
+                    if ($product == null) {
+                        $product = R::dispense('product');
+                        $product->name = $mProduct['name'];
+                        $product->sku = $mProduct['sku'];
+                        $productId = R::store($product);
 
-                    $productprice = R::dispense('productprice');
-                    $productprice->product_id = $productId;
-                    $productprice->base_cost = $mProduct['base_cost'];
-                    $productprice->price = $mProduct['price'];
-                    $productprice->tax_amount = ($mProduct['tax_amount'] / $mProduct['qty_ordered']);
-                    $productprice->timestamp = $now;
-                    R::store($productprice);;
+                        $productprice = R::dispense('productprice');
+                        $productprice->product_id = $productId;
+                        $productprice->base_cost = $mProduct['base_cost'];
+                        $productprice->price = $mProduct['price'];
+                        $productprice->tax_amount = ($mProduct['tax_amount'] / $mProduct['qty_ordered']);
+                        $productprice->timestamp = $now;
+                        R::store($productprice);;
 
-                    $productquantity = R::dispense('productquantity');
-                    $productquantity->product_id = $productId;
-                    $productquantity->marketingchannel_id = $channelId;
-                    $productquantity->quantity = $mProduct['qty_ordered'];
-                    $productquantity->timestamp = $now;
-                    R::store($productquantity);
-                } else {
-                    $productId = $product->id;
+                        $productquantity = R::dispense('productquantity');
+                        $productquantity->product_id = $productId;
+                        $productquantity->marketingchannel_id = $channelId;
+                        $productquantity->quantity = $mProduct['qty_ordered'];
+                        $productquantity->timestamp = $now;
+                        R::store($productquantity);
+                    } else {
+                        $productId = $product->id;
 
-                    $productprices = R::find('productprice',
-                        ' product_id = :product_id ORDER BY :sort DESC LIMIT 1',
-                        array(
-                            ':product_id' => $productId,
-                            ':sort'       => 'timestamp'
-                        ));
-
-                    foreach ($productprices as $pProductprice) {
-
-                        $basecost = $pProductprice->base_cost;
-                        $price = $pProductprice->price;
-                        $tax_amount = $pProductprice->tax_amount;
-
-                        $bool = false;
-                        if ($pProductprice->base_cost != $mProduct['base_cost']) {
-                            $basecost = $mProduct['base_cost'];
-                            $bool = true;
-                        } elseif ($pProductprice->price != $mProduct['price']) {
-                            $price = $mProduct['price'];
-                            $bool = true;
-                        } elseif ($pProductprice->tax_amount != $mProduct['tax_amount']) {
-                            $tax_amount = ($mProduct['tax_amount'] / $mProduct['qty_ordered']);
-                            $bool = true;
-                        }
-
-                        if ($bool) {
-                            $productprice = R::dispense('productprice');
-                            $productprice->product_id = $productId;
-                            $productprice->base_cost = $basecost;
-                            $productprice->price = $price;
-                            $productprice->tax_amount = $tax_amount;
-                            $productprice->timestamp = $now;
-                            R::store($productprice);
-                        }
-
-                        $productquantities = R::find('productquantity', 'product_id = :product_id AND timestamp = :timestamp AND marketingchannel_id = :channel_id',
+                        $productprices = R::find('productprice',
+                            ' product_id = :product_id ORDER BY :sort DESC LIMIT 1',
                             array(
-                                ":product_id" => $productId,
-                                ":timestamp"  => $now,
-                                ":channel_id" => $channelId
+                                ':product_id' => $productId,
+                                ':sort'       => 'timestamp'
                             ));
 
-                        foreach ($productquantities as $productquantity) {
-                            $productquantity->quantity += $mProduct['qty_ordered'];
-                            R::store($productquantity, $productquantity->id);
+                        foreach ($productprices as $pProductprice) {
+
+                            $basecost = $pProductprice->base_cost;
+                            $price = $pProductprice->price;
+                            $tax_amount = $pProductprice->tax_amount;
+
+                            $bool = false;
+                            if ($basecost != round($mProduct['base_cost'], 2)) {
+                                $basecost = $mProduct['base_cost'];
+                                $bool = true;
+                            } elseif ($price != round($mProduct['price'],2)) {
+                                $price = $mProduct['price'];
+                                $bool = true;
+                            } elseif ($tax_amount != round(($mProduct['tax_amount'] / $mProduct['qty_ordered']), 2)) {
+                                $tax_amount = ($mProduct['tax_amount'] / $mProduct['qty_ordered']);
+                                $bool = true;
+                            }
+
+                            if ($bool) {
+                                $productprice = R::dispense('productprice');
+                                $productprice->product_id = $productId;
+                                $productprice->base_cost = $basecost;
+                                $productprice->price = $price;
+                                $productprice->tax_amount = $tax_amount;
+                                $productprice->timestamp = $now;
+                                R::store($productprice);
+                            }
+
+                            $productquantities = R::find('productquantity', 'product_id = :product_id AND timestamp = :timestamp AND marketingchannel_id = :channel_id',
+                                array(
+                                    ":product_id" => $productId,
+                                    ":timestamp"  => $now,
+                                    ":channel_id" => $channelId
+                                ));
+
+                            foreach ($productquantities as $productquantity) {
+                                $productquantity->quantity += $mProduct['qty_ordered'];
+                                R::store($productquantity, $productquantity->id);
+                            }
                         }
                     }
                 }
