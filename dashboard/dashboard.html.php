@@ -5,29 +5,38 @@
 </head>
 <body>
 <div id='dashboard'>
-    <h1><?= $this->title; ?></h1>
-
     <div id="marketing_channels">
         <table class="table">
             <thead>
             </thead>
             <tbody>
             <tr>
-                <td>
-                    <div>
-                        <h1><strong>Kieskeurig.nl</strong></h1>
+                <?php
+                if (sizeof($this->totalProfitArray)) {
+                    foreach ($this->totalProfitArray as $channel => $profit)
+                    {
+                        ?>
+                        <td>
+                            <div>
+                                <h1><strong><?=$channel?></strong></h1>
 
-                        <h1 style="color: <?= ($this->totalProfitArray['kieskeurig.nl'] > 0) ? 'green' : 'red' ?>">
-                            <strong>€<?= $this->totalProfitArray['kieskeurig.nl'] ?></strong></h1>
-                    </div>
-                </td>
-                <td>
-                    <div>
-                        <h1><strong>Beslist.nl</strong></h1>
-
-                        <h1><strong>€2500,-</strong></h1>
-                    </div>
-                </td>
+                                <h1 style="color: <?= ($profit) ? 'green' : 'red' ?>">
+                                    <strong>€<?= $profit ?></strong></h1>
+                            </div>
+                        </td>
+                        <?php
+                    }
+                } else {
+                    ?>
+                    <td>
+                        <div>
+                            <h1><strong>Kapodt</strong></h1>
+                            <h1><strong>Ga eens kanalen toevoegen of producten verkopen</strong></h1>
+                        </div>
+                    </td>
+                    <?php
+                }
+                ?>
             </tr>
             </tbody>
         </table>

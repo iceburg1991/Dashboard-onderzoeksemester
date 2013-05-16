@@ -30,7 +30,7 @@ require_once dirname(__FILE__) . '/includes/nav.php';
     //if (isset($_GET['costs']) && strlen($_GET['costs']) > 0) {
 
     // 30 day time filter
-    $from = date('Y-m-d', time() - 30 * 24 * 60 * 60);
+    /*$from = date('Y-m-d', time() - 30 * 24 * 60 * 60);
     $to = date('Y-m-d');
 
     // Fetches all the Revenue metrics
@@ -219,7 +219,7 @@ require_once dirname(__FILE__) . '/includes/nav.php';
     <?php
     //}
     //}
-    ?>
+    */?>
 </div>
 </section>
 </body>
