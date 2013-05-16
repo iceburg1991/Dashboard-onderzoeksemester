@@ -14,7 +14,7 @@ error_reporting(-1);
 require_once dirname(__FILE__) . '/includes_cron.php';
 
 // 1 day time filter
-$from = date('Y-m-d', time() - 30 * 24 * 60 * 60);
+$from = date('Y-m-d', time() - 24 * 60 * 60);
 $to = date('Y-m-d');
 
 // For timestamp
