@@ -8,8 +8,11 @@
  */
 define("MONTH_COST", "vaste_lasten");
 define("MARKETING_COST", "marketing_cost");
-class cost extends RedBean_SimpleModel {
+
+class Model_Cost extends RedBean_SimpleModel {
+
     public $cost;
     public $type;
     public $timestamp;
+
 }

@@ -7,7 +7,9 @@
  * To change this template use File | Settings | File Templates.
  */
 
-class marketingchannelrevenue extends RedBean_SimpleModel {
+class MarketingChannelRevenue extends RedBean_SimpleModel {
+
     public $channel_revenue;
     public $timestamp;
+
 }
