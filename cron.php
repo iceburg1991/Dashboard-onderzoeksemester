@@ -48,10 +48,11 @@ foreach ($TransactionRevenueMetrics->getRevenuePerSource() as $source) {
     $marketingchannelrevenue->channel_revenue = $source['transactionRevenue'];
     $marketingchannelrevenue->timestamp = $now;
     $marketingchannel->ownMarketingchannelrevenue = array($marketingchannelrevenue);
-    $productquantities = array();
-    if (array_key_exists($source['source'], $orderData)) {
-        foreach ($orderData[$source['source']] as $orderKey => $orderValue) {
 
+    if (array_key_exists($source['source'], $orderData))
+    {
+        foreach ($orderData[$source['source']] as $orderKey => $orderValue)
+        {
             $magentoOrderDetails = $mClient->getSalesOrderDetails($orderKey);
             $magentoOrder = new MagentoOrder($magentoOrderDetails['order_id'], $magentoOrderDetails['base_shipping_amount']);
 
@@ -63,29 +64,34 @@ foreach ($TransactionRevenueMetrics->getRevenuePerSource() as $source) {
                     array($mProduct['sku']));
 
                 if ($product == null) {
+                    // When the product doesn't excists create the object
                     $product = R::dispense('product');
                     $product->name = $mProduct['name'];
                     $product->sku = $mProduct['sku'];
 
+                    // Set its prices, because those are unknow to
                     $productprice = R::dispense('productprice');
                     $productprice->base_cost = $mProduct['base_cost'];
                     $productprice->price = $mProduct['price'];
                     $productprice->tax_amount = ($mProduct['tax_amount'] / $mProduct['qty_ordered']);
                     $productprice->timestamp = $now;
 
+                    // The quantity is unknown, create that!
                     $productquantity = R::dispense('productquantity');
                     $productquantity->quantity = $mProduct['qty_ordered'];
                     $productquantity->timestamp = $now;
 
-                    $product->ownProductprice = array($productprice);
-                    $product->ownProductquantity = array($productquantity);
-                    $productId = R::store($product);
+                    // Create a link to product
+                    $product->ownProductprice[] = $productprice;
+                    $product->ownProductquantity[] = $productquantity;
+                    R::store($product); // store that bitch!
 
-                    //$productquantity = R::find('product_id = :id', array(':id' => $productId));
-                    //array_push($productquantities, $productquantity);
-                    //continue;
+                    // First time we have to add this quantity
+                    $marketingchannel->ownProductquantity[] = $productquantity;
+
                 } else {
 
+                    // When the product does excists we have to compare the prices.
                     $productprices = R::find('productprice',
                         'productprice_id = :product_id ORDER BY :sort DESC LIMIT 1',
                         array(
@@ -95,7 +101,8 @@ foreach ($TransactionRevenueMetrics->getRevenuePerSource() as $source) {
 
                     foreach ($productprices as $pProductprice) {
 
-                        $bool = false;
+                        // Should we add?
+                        $price = false;
 
                         // The other values have to get set, otherwise the value would be 0.
                         $basecost = $productprice->base_cost;
@@ -106,38 +113,54 @@ foreach ($TransactionRevenueMetrics->getRevenuePerSource() as $source) {
                         // When the other prices don't differ the price would be the same as the previous price.
                         if ($pProductprice->base_cost != $mProduct['base_cost']) {
                             $basecost = $mProduct['base_cost'];
-                            $bool = true;
+                            $price = true;
                         } elseif ($pProductprice->price != $mProduct['price']) {
                             $price = $mProduct['price'];
-                            $bool = true;
+                            $price = true;
                         } elseif ($pProductprice->tax_amount != $mProduct['tax_amount']) {
                             $tax_amount = ($mProduct['tax_amount'] / $mProduct['qty_ordered']);
-                            $bool = true;
+                            $price = true;
                         }
 
-                        if ($bool) {
+                        // When the price did change set the variables and add the new product price to the array
+                        if ($price) {
                             $productprice = R::dispense('productprice');
                             $productprice->basecost = $basecost;
                             $productprice->price = $price;
                             $productprice->tax_amount = $tax_amount;
-                            $product->ownProductprice = array($productprice);
+                            $product->ownProductprice[] = $productprice;
                         }
                     }
-                    $productquantity = R::find('productquantity', 'product_id = :product_id AND :timestamp = :now',
+
+                    // If this product got sold before trough this channel add the quantity to this product
+                    $productquantity = R::findOne(
+                        'productquantity',
+                        'product_id = :product_id AND :timestamp = :now AND marketingchannel_id = :marketingchannel_id',
                         array(
                             ':product_id' => $product->getID(),
                             ':timestamp' => 'timestamp',
-                            ':now' => $now
+                            ':now' => $now,
+                            ':marketingchannel_id' => $marketingchannel->getID()
                         ));
-                    //foreach ($productquantity as $item) {
-                    //    array_push($productquantities, $item);
-                    //}
-                    $product->ownProductquantity = $productquantity;
-                    $productId = R::store($product);
+
+                    // When we find something..
+                    $quantity = false;
+                    if ($productquantity != null) {
+                        // Add up the quantity..
+                        $productquantity->quantity += $mProduct['qty_ordered'];
+                        // Replace the excisting quantity object
+                        $product->ownProductquantity = $productquantity;
+                        $quantity = true;
+                    }
+
+                    // Only when or the quantity or the price was changed store the product
+                    if ($quantity || $price) {
+                        R::store($product);
+                    }
                 }
             }
         }
     }
-   // $marketingchannel->ownProductquantity = $productquantities;
-    $channelId = R::store($marketingchannel);
+    // Store this channel with all the objects related to it.
+    R::store($marketingchannel);
 }
