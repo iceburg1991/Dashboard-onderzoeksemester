@@ -83,7 +83,7 @@ foreach ($TransactionRevenueMetrics->getRevenuePerSource() as $source) {
 
                     //$productquantity = R::find('product_id = :id', array(':id' => $productId));
                     //array_push($productquantities, $productquantity);
-                    continue;
+                    //continue;
                 } else {
 
                     $productprices = R::find('productprice',
