@@ -99,6 +99,8 @@ foreach ($TransactionRevenueMetrics->getRevenuePerSource() as $source) {
                             ':sort' => 'timestamp'
                         ));
 
+                    $price = false;
+
                     foreach ($productprices as $pProductprice) {
 
                         // Should we add?
