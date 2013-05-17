@@ -69,7 +69,7 @@ foreach ($TransactionRevenueMetrics->getRevenuePerSource() as $source) {
                     $productprice = R::dispense('productprice');
                     $productprice->base_cost = $mProduct['base_cost'];
                     $productprice->price = $mProduct['price'];
-                    $productprice->tax_amount = $mProduct['tax_amount'];
+                    $productprice->tax_amount = ($mProduct['tax_amount'] / $mProduct['qty_ordered']);
                     $productprice->timestamp = $now;
 
                     $productquantity = R::dispense('productquantity');
@@ -84,14 +84,25 @@ foreach ($TransactionRevenueMetrics->getRevenuePerSource() as $source) {
                     //array_push($productquantities, $productquantity);
                     continue;
                 } else {
+
                     $productprices = R::find('productprice',
                         'productprice_id = :product_id ORDER BY :sort DESC LIMIT 1',
                         array(
                             ':product_id' => $product->getID(),
                             ':sort' => 'timestamp'
                         ));
+
                     foreach ($productprices as $pProductprice) {
+
                         $bool = false;
+
+                        // The other values have to get set, otherwise the value would be 0.
+                        $basecost = $productprice->base_cost;
+                        $price = $productprice->price;
+                        $tax_amount = $productprice->tax_amount;
+
+                        // Compare the prices, if they dont match create a new object with the new price.
+                        // When the other prices don't differ the price would be the same as the previous price.
                         if ($pProductprice->base_cost != $mProduct['base_cost']) {
                             $basecost = $mProduct['base_cost'];
                             $bool = true;
@@ -99,7 +110,7 @@ foreach ($TransactionRevenueMetrics->getRevenuePerSource() as $source) {
                             $price = $mProduct['price'];
                             $bool = true;
                         } elseif ($pProductprice->tax_amount != $mProduct['tax_amount']) {
-                            $tax_amount = $mProduct['tax_amount'];
+                            $tax_amount = ($mProduct['tax_amount'] / $mProduct['qty_ordered']);
                             $bool = true;
                         }
 
