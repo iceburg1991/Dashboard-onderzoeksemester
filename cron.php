@@ -54,10 +54,13 @@ foreach ($TransactionRevenueMetrics->getRevenuePerSource() as $source) {
         foreach ($orderData[$source['source']] as $orderKey => $orderValue)
         {
             $magentoOrderDetails = $mClient->getSalesOrderDetails($orderKey);
-            $magentoOrder = new MagentoOrder($magentoOrderDetails['order_id'], $magentoOrderDetails['base_shipping_amount']);
+            //$magentoOrder = new MagentoOrder($magentoOrderDetails['order_id'], $magentoOrderDetails['base_shipping_amount']);
 
             foreach ($magentoOrderDetails['items'] as $mProduct) {
 
+                // If a product as no price or non got orderd something we have no need to process this product,
+                //if ($mProduct['price'] > 0 && $mProduct['qty_ordered'] > 0)
+                //
                 // SKU is more accurate
                 $product = R::findOne('product',
                     'sku = ?',
@@ -160,6 +163,7 @@ foreach ($TransactionRevenueMetrics->getRevenuePerSource() as $source) {
                         R::store($product);
                     }
                 }
+                //}
             }
         }
     }
