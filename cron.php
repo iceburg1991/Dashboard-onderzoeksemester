@@ -57,9 +57,10 @@ foreach ($TransactionRevenueMetrics->getRevenuePerSource() as $source) {
 
             foreach ($magentoOrderDetails['items'] as $mProduct) {
 
+                // SKU is more accurate
                 $product = R::findOne('product',
-                    'name = ?',
-                    array($mProduct['name']));
+                    'sku = ?',
+                    array($mProduct['sku']));
 
                 if ($product == null) {
                     $product = R::dispense('product');
