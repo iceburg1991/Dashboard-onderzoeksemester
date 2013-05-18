@@ -2,14 +2,15 @@
 require_once dirname(__FILE__) . '/Template.php';
 class Dashboard
 {
-
     //public $title = 'Dashboard :-)';
     public $totalProfitArray;
+    public $revenueCostProfitArray;
     public $googleChart;
 
     public function __construct()
     {
         $this->setTotalProfitArray();
+        $this->setRevenueCostProfitArray();
         $this->createGoogleChart();
     }
 
@@ -33,8 +34,37 @@ class Dashboard
         return;
     }
 
+    private function setRevenueCostProfitArray()
+    {
+        $from = date('Y-m-d', time() - 7 * 24 * 60 * 60);
+        $to = date('Y-m-d H:00:00', time() + 2 * 60 * 60); // +2 hours because of the server time.
+
+        // Data
+        $rows = R::getAll("
+            SELECT mc.id, mc.name,
+            SUM(mcr.channel_revenue) AS channelrevenue,
+            SUM(pr.price * pq.quantity) AS productrevenue,
+            SUM((pr.base_cost + pr.tax_amount) * pq.quantity) AS cost,
+            SUM((pr.price - pr.base_cost - pr.tax_amount) * pq.quantity) AS profit
+            FROM product p, productprice pr, productquantity pq, marketingchannel mc, marketingchannelrevenue mcr
+            WHERE pr.product_id = p.id
+            AND pq.product_id = p.id
+            AND pq.marketingchannel_id = mc.id
+            AND mcr.marketingchannel_id = mc.id
+            GROUP BY mc.id");
+        // Extract data
+        $results = R::convertToBeans('marketingchannelrevenue', $rows);
+
+        foreach ($results as $result) {
+            $this->revenueCostProfitArray[] = $result;
+        }
+
+        return;
+    }
+
     /*
-    SELECT mc.name, SUM(mcr.channel_revenue) AS revenue, SUM((pr.price - pr.base_cost - pr.tax_amount) * pq.quantity) AS profit
+
+    SELECT mc.id, mc.name, SUM(mcr.channel_revenue) AS channelrevenue, SUM(pr.price * pq.quantity) as productrevenue, SUM((pr.base_cost + pr.tax_amount) * pq.quantity) as cost, SUM((pr.price - pr.base_cost - pr.tax_amount) * pq.quantity) AS profit
     FROM product p, productprice pr, productquantity pq, marketingchannel mc, marketingchannelrevenue mcr
     WHERE pr.product_id = p.id
     AND pq.product_id = p.id
@@ -50,7 +80,7 @@ class Dashboard
     AND mc.name = 'hugozonderland.nl'
     */
 
-    //private function get
+    //sprivate function get
 
     private function createGoogleChart()
     {

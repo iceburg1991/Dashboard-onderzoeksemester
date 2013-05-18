@@ -13,9 +13,11 @@ error_reporting(-1);
 // Config file
 require_once dirname(__FILE__) . '/includes_cron.php';
 
-// 30 day time filter
+// 24 hour time filter
 $from = date('Y-m-d', time() - 24 * 60 * 60);
 $to = date('Y-m-d');
+
+// Used to define now timestamp.
 $now = date('Y-m-d H:i:s');
 
 // Fetches all the Revenue metrics
@@ -30,7 +32,6 @@ $orderData = $OrderPerMarketingChannel->getOrdersPerChannel(); // all the order 
 //print_r($OrderPerMarketingChannel);
 //print_r($TransactionRevenueMetrics);
 //echo "</pre>";
-
 
 // Loop trough the all sources
 foreach ($TransactionRevenueMetrics->getRevenuePerSource() as $source) {

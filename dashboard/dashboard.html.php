@@ -12,7 +12,7 @@
             <tbody>
             <tr>
                 <?php
-                if (sizeof($this->totalProfitArray)) {
+                if (sizeof($this->totalProfitArray) > 0) {
                     foreach ($this->totalProfitArray as $channel => $profit)
                     {
                         ?>
@@ -20,7 +20,7 @@
                             <div>
                                 <h1><strong><?=$channel?></strong></h1>
 
-                                <h1 style="color: <?= ($profit) ? 'green' : 'red' ?>">
+                                <h1 style="color: <?= ($profit > 0) ? 'green' : 'red' ?>">
                                     <strong>€<?= $profit ?></strong></h1>
                             </div>
                         </td>
@@ -46,34 +46,32 @@
             <thead>
             <tr>
                 <th>Marketing kanaal</th>
-                <th>Omzet</th>
+                <th>Kanaal omzet</th>
+                <th>Product omzet</th>
                 <th>Kosten</th>
                 <th>Winst</th>
                 <th>Rendement</th>
             </tr>
             </thead>
             <tbody>
-            <tr class="success">
-                <td><strong>Kieskeurig.nl</strong></td>
-                <td>€15.000,-</td>
-                <td>€10.000,-</td>
-                <td>€5000,-</td>
-                <td>50%</td>
-            </tr>
-            <tr class="success">
-                <td><strong>beslist.nl</strong></td>
-                <td>€10.000,-</td>
-                <td>€7500,-</td>
-                <td>€2500,-</td>
-                <td>33%</td>
-            </tr>
-            <tr class="error">
-                <td><strong>Vergelijk</strong></td>
-                <td>€2300,-</td>
-                <td>€3300,-</td>
-                <td>-€1000,-</td>
-                <td>-9,43%</td>
-            </tr>
+            <?php
+            if (sizeof($this->revenueCostProfitArray) > 0)
+            {
+                foreach ($this->revenueCostProfitArray as $data)
+                {
+                ?>
+                <tr class="<?= ($data->profit > 0) ? 'success' : 'error' ?>">
+                    <td><strong><a href="channel.php?id=<?= $data->id ?>"><?=$data->name?></a></strong></td>
+                    <td>&euro;<?=round($data->channelrevenue, 2)?></td>
+                    <td>&euro;<?=round($data->productrevenue, 2)?></td>
+                    <td>&euro;<?=round($data->cost, 2)?></td>
+                    <td>&euro;<?=round($data->profit, 2)?></td>
+                    <td>50%</td>
+                </tr>
+                <?php
+                }
+            }
+            ?>
             </tbody>
         </table>
     </div>
