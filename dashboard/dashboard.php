@@ -33,6 +33,25 @@ class Dashboard
         return;
     }
 
+    /*
+    SELECT mc.name, SUM(mcr.channel_revenue) AS revenue, SUM((pr.price - pr.base_cost - pr.tax_amount) * pq.quantity) AS profit
+    FROM product p, productprice pr, productquantity pq, marketingchannel mc, marketingchannelrevenue mcr
+    WHERE pr.product_id = p.id
+    AND pq.product_id = p.id
+    AND pq.marketingchannel_id = mc.id
+    AND mcr.marketingchannel_id = mc.id
+    GROUP BY mc.name
+
+    SELECT p.name, pq.quantity, mc.name, pr.price, pr.base_cost, pr.tax_amount, ((pr.price - pr.base_cost - pr.tax_amount) * pq.quantity) AS profitmade
+    FROM product p, productquantity pq, marketingchannel mc, productprice pr
+    WHERE pq.product_id = p.id
+    AND mc.id = pq.marketingchannel_id
+    AND pr.product_id = p.id
+    AND mc.name = 'hugozonderland.nl'
+    */
+
+    //private function get
+
     private function createGoogleChart()
     {
         $this->googleChart = get_object_vars($this->googleChart);
