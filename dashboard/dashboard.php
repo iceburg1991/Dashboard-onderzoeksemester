@@ -1,23 +1,32 @@
 <?
+
 require_once dirname(__FILE__) . '/Template.php';
+require_once dirname(__FILE__) . '/../classes/Calculator.class.php';
+
 class Dashboard
 {
     //public $title = 'Dashboard :-)';
+    public $totalRevenue;
     public $totalProfitArray;
     public $revenueCostProfitArray;
     public $googleChart;
+    public $calculator;
+    public $from;
 
-    public function __construct()
+    public function __construct($from = 7)
     {
         $this->setTotalProfitArray();
         $this->setRevenueCostProfitArray();
         $this->createGoogleChart();
+        $this->getTotalRevenue();
+        $this->calculator = new Calculator();
+        $this->from = $from;
     }
 
     private function setTotalProfitArray()
     {
         // 7 day time filter
-        $from = date('Y-m-d', time() - 7 * 24 * 60 * 60);
+        $from = date('Y-m-d', time() - $this->from * 24 * 60 * 60);
         $to = date('Y-m-d H:00:00', time() + 2 * 60 * 60); // +2 hours because of the server time.
 
         // Data
@@ -36,7 +45,7 @@ class Dashboard
 
     private function setRevenueCostProfitArray()
     {
-        $from = date('Y-m-d', time() - 7 * 24 * 60 * 60);
+        $from = date('Y-m-d', time() - $this->from * 24 * 60 * 60);
         $to = date('Y-m-d H:00:00', time() + 2 * 60 * 60); // +2 hours because of the server time.
 
         // Data
@@ -51,6 +60,7 @@ class Dashboard
             AND pq.product_id = p.id
             AND pq.marketingchannel_id = mc.id
             AND mcr.marketingchannel_id = mc.id
+            AND pq.timestamp >= " . $from . " AND pq.timestamp <= " . $to .  "
             GROUP BY mc.id");
         // Extract data
         $results = R::convertToBeans('marketingchannelrevenue', $rows);
@@ -86,6 +96,27 @@ class Dashboard
     {
         $this->googleChart = get_object_vars($this->googleChart);
         $this->googleChart = new Template('_googleChart.html.php', $this->googleChart);
+    }
+
+    private function getTotalRevenue()
+    {
+        $from = date('Y-m-d', time() - $this->from * 24 * 60 * 60);
+        $to = date('Y-m-d H:00:00', time() + 2 * 60 * 60); // +2 hours because of the server time.
+
+        // Data
+        $rows = R::getAll("
+            SELECT id, SUM( channel_revenue ) AS revenue
+            FROM marketingchannelrevenue
+            WHERE timestamp >= " . $from . " AND timestamp <= " . $to .  "");
+
+        // Extract data
+        $results = R::convertToBeans('marketingchannelrevenue', $rows);
+
+        foreach ($results as $result) {
+            $this->totalRevenue = $result->revenue;
+        }
+
+        return;
     }
 }
 

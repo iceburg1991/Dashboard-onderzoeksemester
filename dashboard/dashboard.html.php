@@ -18,10 +18,10 @@
                         ?>
                         <td>
                             <div>
-                                <h1><strong><?=$channel?></strong></h1>
+                                <h2><strong><?=$channel?></strong></h2>
 
-                                <h1 style="color: <?= ($profit > 0) ? 'green' : 'red' ?>">
-                                    <strong>€<?= $profit ?></strong></h1>
+                                <h2 style="color: <?= ($profit > 0) ? 'green' : 'red' ?>">
+                                    <strong>€<?= $profit ?></strong></h2>
                             </div>
                         </td>
                         <?php
@@ -31,7 +31,7 @@
                     <td>
                         <div>
                             <h1><strong>Kapodt</strong></h1>
-                            <h1><strong>Ga eens kanalen toevoegen of producten verkopen</strong></h1>
+                            <h1><strong>Ga eens producten verkopen</strong></h1>
                         </div>
                     </td>
                     <?php
@@ -57,8 +57,13 @@
             <?php
             if (sizeof($this->revenueCostProfitArray) > 0)
             {
+                $this->calculator->setCosts(COSTS);
+
                 foreach ($this->revenueCostProfitArray as $data)
                 {
+                    $this->calculator->setRatio($this->totalRevenue / $data->channelrevenue);
+                    $this->calculator->setRevenue($data->channelrevenue);
+                    $this->calculator->setSpecificCosts($data->cost);
                 ?>
                 <tr class="<?= ($data->profit > 0) ? 'success' : 'error' ?>">
                     <td><strong><a href="channel.php?id=<?= $data->id ?>"><?=$data->name?></a></strong></td>
@@ -66,7 +71,7 @@
                     <td>&euro;<?=round($data->productrevenue, 2)?></td>
                     <td>&euro;<?=round($data->cost, 2)?></td>
                     <td>&euro;<?=round($data->profit, 2)?></td>
-                    <td>50%</td>
+                    <td><?=$this->calculator->getEfficiency()?>%</td>
                 </tr>
                 <?php
                 }

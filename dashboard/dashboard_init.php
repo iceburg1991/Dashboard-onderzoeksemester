@@ -5,9 +5,9 @@ require_once dirname(__FILE__) . '/dashboard.php';
 class Dashboard_init
 {
 
-    public function showDashboard()
+    public function showDashboard($scope = 7)
     {
-        $dashboard = new Dashboard();
+        $dashboard = new Dashboard($scope);
         $dashboard = get_object_vars($dashboard);
         $main = new Template('dashboard.html.php', $dashboard);
         return $main->render();

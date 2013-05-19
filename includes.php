@@ -15,6 +15,7 @@ R::setup('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME . '', '' . DB_USERNAME .
 
 // Settings
 $settings = R::load('settings', 1);
+define("COSTS", $settings->costs);
 
 // Google Client and Google Analytics Service
 require_once dirname(__FILE__) . '/GoogleClientLib/Google_Client.php';

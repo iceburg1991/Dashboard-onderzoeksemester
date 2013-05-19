@@ -13,15 +13,11 @@
         <nav class="col8 last">
             <div>
                 <ul id="mainnav">
-                    <li id="menu-item-48"><a href="index.php">Selecteer een ander account</a></li>
+                    <li id="menu-item-48"><a href="index.php?from=day">Dag niveau</a></li>
+                    <li id="menu-item-288"><a href="index.php?from=week">Week niveau</a></li>
+                    <li id="menu-item-288"><a href="index.php?from=month">Maand niveau</a></li>
                     <li id="menu-item-48"><a href="settings.php">Instellingen</a></li>
-                    <li id="menu-item-288"><a href="index.php?logout">Uitloggen</a></li>
                 </ul>
-                <select class="selectnav" id="selectnav1" style="width: 1357px; ">
-                    <option value="">Main navigation</option>
-                    <option value="index.php" selected="">Selecteer een ander account</option>
-                    <option value="index.php?logout">Uitloggen</option>
-                </select>
                 <i class="selnav icon-align-justify"></i>
             </div>
         </nav>
