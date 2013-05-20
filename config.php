@@ -7,6 +7,8 @@
  * To change this template use File | Settings | File Templates.
  */
 
+date_default_timezone_set("Europe/Amsterdam");
+
 // Google Console Credentials
 define('ACCESS_TYPE', 'offline');
 define('APPLICATION_NAME', 'Dashboard proof of concept');
