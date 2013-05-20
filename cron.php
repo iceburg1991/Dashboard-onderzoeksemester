@@ -13,9 +13,6 @@ error_reporting(-1);
 // Config file
 require_once dirname(__FILE__) . '/includes_cron.php';
 
-// Get last order timestamp
-
-
 // 24 hour time filter
 $from = date('Y-m-d', time() - 24 * 60 * 60);
 $to = date('Y-m-d');
