@@ -21,14 +21,15 @@ require_once dirname(__FILE__) . '/includes/nav.php';
 <div class="onepcssgrid-1200">
     <?php
 
-    $from = $_GET['from'];
-
     $scope = 1;
 
-    if ($from == 'week') {
-        $scope = 7;
-    } elseif ($from == 'month') {
-        $scope = 30;
+    if (isset($_GET['from'])) {
+        $from = $_GET['from'];
+        if ($from == 'week') {
+            $scope = 7;
+        } elseif ($from == 'month') {
+            $scope = 30;
+        }
     }
 
     require_once dirname(__FILE__) . '/dashboard/dashboard_init.php';

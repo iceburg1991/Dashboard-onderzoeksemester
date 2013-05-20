@@ -30,8 +30,19 @@ require_once dirname(__FILE__) . '/includes/nav.php';
         <?php
         require_once dirname(__FILE__) . '/dashboard/channeldashboard_init.php';
 
+        $scope = 1;
+
+        if (isset($_GET['from'])) {
+            $from = $_GET['from'];
+            if ($from == 'week') {
+                $scope = 7;
+            } elseif ($from == 'month') {
+                $scope = 30;
+            }
+        }
+
         $dashboard_init = new ChannelDashboard_init();
-        $dashboard_init->showDashboard($_GET['id']);
+        $dashboard_init->showDashboard($_GET['id'], $scope);
 
         ?>
     </div>

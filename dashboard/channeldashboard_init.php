@@ -11,9 +11,9 @@ require_once dirname(__FILE__) . '/channeldashboard.php';
 
 class ChannelDashboard_init
 {
-    public function showDashboard($channelId)
+    public function showDashboard($channelId, $scope = 7)
     {
-        $dashboard = new ChannelDashboard($channelId);
+        $dashboard = new ChannelDashboard($channelId, $scope);
         $dashboard = get_object_vars($dashboard);
         $main = new Template('channeldashboard.html.php', $dashboard);
         return $main->render();

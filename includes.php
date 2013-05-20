@@ -15,7 +15,22 @@ R::setup('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME . '', '' . DB_USERNAME .
 
 // Settings
 $settings = R::load('settings', 1);
-define("COSTS", $settings->costs);
+
+// Sets the COST by ratio (day,     week,   month)
+// ratio:         ie        30,     4       1
+$time = time();
+$ratio = cal_days_in_month(CAL_GREGORIAN, date('n', $time), date('Y', $time));
+
+if (isset($_GET['from'])) {
+    if ($_GET['from'] == 'week') {
+        // Do not round, otherwise this is always 4, although its not exact 4.
+        $ratio = $ratio / 7;
+    } else if ($_GET['from'] == 'month') {
+        $ratio = 1;
+    }
+}
+
+define("COSTS", ($settings->costs / $ratio));
 
 // Google Client and Google Analytics Service
 require_once dirname(__FILE__) . '/GoogleClientLib/Google_Client.php';
