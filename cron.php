@@ -60,7 +60,7 @@ foreach ($TransactionRevenueMetrics->getRevenuePerSource() as $source) {
         foreach ($orderData[$source['source']] as $orderKey => $orderValue) {
             $magentoOrderDetails = $mClient->getSalesOrderDetails($orderKey);
             //$magentoOrder = new MagentoOrder($magentoOrderDetails['order_id'], $magentoOrderDetails['base_shipping_amount']);
-            $base_shipping_amount = $magentoOrderDetails['base_shipping_amount'];
+            $base_shipping_amount = $magentoOrderDetails['base_shipping_amount'] ;
 
             foreach ($magentoOrderDetails['items'] as $mProduct) {
                 echo "<b>Product: " . $mProduct['name'] . "</b><br />";
@@ -86,7 +86,7 @@ foreach ($TransactionRevenueMetrics->getRevenuePerSource() as $source) {
                     $productprice->base_cost = $mProduct['base_cost'];
                     $productprice->price = $mProduct['price'];
                     $productprice->tax_amount = ($mProduct['tax_amount'] / $mProduct['qty_ordered']);
-                    $productprice->base_shipping_amount = $base_shipping_amount;
+                    $productprice->base_shipping_amount = ($base_shipping_amount / $mProduct['qty_ordered']);
                     $productprice->timestamp = $now;
 
                     // The quantity is unknown, create that!
@@ -150,7 +150,7 @@ foreach ($TransactionRevenueMetrics->getRevenuePerSource() as $source) {
                             $productprice->basecost = $basecost;
                             $productprice->price = $price;
                             $productprice->tax_amount = $tax_amount;
-                            $productprice->base_shipping_amount = $base_shipping_amount;
+                            $productprice->base_shipping_amount = ($base_shipping_amount / $mProduct['qty_ordered']);
                             $product->ownProductprice[] = $productprice;
                             echo  $mProduct['name'] . " is voorzien van nieuwe prijzen.<br />";
                         }
