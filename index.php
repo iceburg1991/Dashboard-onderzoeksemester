@@ -27,7 +27,7 @@ require_once dirname(__FILE__) . '/includes/nav.php';
 
     if ($from == 'week') {
         $scope = 7;
-    } elseif ($from = 'month') {
+    } elseif ($from == 'month') {
         $scope = 30;
     }
 
