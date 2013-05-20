@@ -58,22 +58,21 @@ class Dashboard
 
     private function setRevenueCostProfitArray()
     {
-         $q = "SELECT mc.id, mc.name,
-            SUM(mcr.channel_revenue) AS channelrevenue,
-            SUM(pr.price * pq.quantity) AS productrevenue,
-            SUM((pr.base_cost + pr.tax_amount) * pq.quantity) AS cost,
-            SUM((pr.price - pr.base_cost - pr.tax_amount) * pq.quantity) AS profit
-            FROM product p, productprice pr, productquantity pq, marketingchannel mc, marketingchannelrevenue mcr
-            WHERE pr.product_id = p.id
-            AND pq.product_id = p.id
-            AND pq.marketingchannel_id = mc.id
-            AND mcr.marketingchannel_id = mc.id
-            AND pq.timestamp >= \"" . $this->from . "\"
-            AND pq.timestamp <= \"" . $this->to .  "\"
-            GROUP BY mc.id";
+         $q = " SELECT
+                mc.id,
+                mc.name,
+                SUM(DISTINCT(mcr.channel_revenue)) AS channelrevenue,
+                SUM(pr.price * pq.quantity) AS productrevenue,
+                SUM((pr.base_cost + pr.tax_amount) * pq.quantity) AS cost, SUM((pr.price - pr.base_cost - pr.tax_amount) * pq.quantity) AS profit FROM productprice pr, productquantity pq, marketingchannel mc, marketingchannelrevenue mcr
+                WHERE pr.product_id = pq.product_id
+                AND mc.id  = pq.marketingchannel_id
+                AND mcr.marketingchannel_id = pq.marketingchannel_id
+                AND pq.timestamp >= \"" . $this->from . "\"
+                AND pq.timestamp <= \"" . $this->to . "\"
+                GROUP BY mc.id";
 
         // Debug
-        // echo $q;
+        //echo $q;
 
         // Data
         $rows = R::getAll($q);
@@ -122,7 +121,7 @@ class Dashboard
             AND timestamp <= \"" . $this->to .  "\"";
 
         // Debug
-        echo $q;
+        //echo $q;
 
         $rows = R::getAll($q);
 
