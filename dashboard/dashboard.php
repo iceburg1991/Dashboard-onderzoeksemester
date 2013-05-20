@@ -17,8 +17,8 @@ class Dashboard
 
     public function __construct($from = 7)
     {
-        $this->from = date('Y-m-d', time() - $from * 24 * 60 * 60);;
-        $this->to = date('Y-m-d', time());
+        $this->from = date('Y-m-d', time() - $from * 24 * 60 * 60);
+        $this->to = date('Y-m-d H:i:s', time());
 
         $this->setTotalProfitArray();
         $this->setRevenueCostProfitArray();
@@ -29,15 +29,21 @@ class Dashboard
 
     private function setTotalProfitArray()
     {
-        // Data
-        $rows = R::getAll("
-            SELECT mc.id AS id, mc.name AS name,
+
+        $q = "SELECT mc.id AS id, mc.name AS name,
             SUM(mcr.channel_revenue) AS revenue
             FROM marketingchannel mc, marketingchannelrevenue mcr
             WHERE mcr.timestamp >= \"" . $this->from . "\"
             AND mcr.timestamp <= \"". $this->to . "\"
             AND mc.id = mcr.marketingchannel_id
-            GROUP BY mc.name");
+            GROUP BY mc.name";
+
+        // Debug
+        //echo $q;
+
+        // Data
+        $rows = R::getAll($q);
+
         // Extract data
         $channels = R::convertToBeans('marketingchannelrevenue', $rows);
 
@@ -66,7 +72,8 @@ class Dashboard
             AND pq.timestamp <= \"" . $this->to .  "\"
             GROUP BY mc.id";
 
-        //echo $q;
+        // Debug
+        // echo $q;
 
         // Data
         $rows = R::getAll($q);
@@ -109,11 +116,15 @@ class Dashboard
 
     private function getTotalRevenue()
     {
-        $rows = R::getAll(
-            "SELECT id, SUM( channel_revenue ) AS revenue
+        $q = "SELECT id, SUM( channel_revenue ) AS revenue
             FROM marketingchannelrevenue
             WHERE timestamp >= \"" . $this->from . "\"
-            AND timestamp <= \"" . $this->to .  "\"");
+            AND timestamp <= \"" . $this->to .  "\"";
+
+        // Debug
+        echo $q;
+
+        $rows = R::getAll($q);
 
         // Extract data
         $results = R::convertToBeans('marketingchannelrevenue', $rows);
