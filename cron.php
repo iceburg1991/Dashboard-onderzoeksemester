@@ -13,6 +13,9 @@ error_reporting(-1);
 // Config file
 require_once dirname(__FILE__) . '/includes_cron.php';
 
+// Get last order timestamp
+
+
 // 24 hour time filter
 $from = date('Y-m-d', time() - 24 * 60 * 60);
 $to = date('Y-m-d');
@@ -34,24 +37,31 @@ $orderData = $OrderPerMarketingChannel->getOrdersPerChannel(); // all the order 
 //echo "</pre>";
 
 // Loop trough the all sources
-foreach ($TransactionRevenueMetrics->getRevenuePerSource() as $source) {
-
-    $marketingchannel = R::findOne('marketingchannel',
-        'name = ?',
-        array($source['source']));
-
-    if ($marketingchannel == null) {
-        $marketingchannel = R::dispense('marketingchannel');
-        $marketingchannel->name = $source['source'];
-    }
-
-    $marketingchannelrevenue = R::dispense('marketingchannelrevenue');
-    $marketingchannelrevenue->channel_revenue = $source['transactionRevenue'];
-    $marketingchannelrevenue->timestamp = $now;
-    $marketingchannel->ownMarketingchannelrevenue = array($marketingchannelrevenue);
-
+foreach ($TransactionRevenueMetrics->getRevenuePerSource() as $source)
+{
+    // We only have to check the channel when this channel actually produced any orders. If we can't find any orders we cannot calculate anything.
     if (array_key_exists($source['source'], $orderData))
     {
+        echo "<b>Marketingkanaal " . $source['source'] . "</b><br />";
+
+        $marketingchannel = R::findOne('marketingchannel',
+            'name = ?',
+            array($source['source']));
+
+        if ($marketingchannel == null) {
+            $marketingchannel = R::dispense('marketingchannel');
+            $marketingchannel->name = $source['source'];
+
+            echo "Bestaat nog niet en wordt toegevoegd.. <br />";
+        }
+
+        $marketingchannelrevenue = R::dispense('marketingchannelrevenue');
+        $marketingchannelrevenue->channel_revenue = $source['transactionRevenue'];
+        $marketingchannelrevenue->timestamp = $now;
+        $marketingchannel->ownMarketingchannelrevenue[] = $marketingchannelrevenue;
+
+        echo "Heeft " . $source['transactionRevenue'] . " omzet gedraaid.. <br /><br />";
+
         foreach ($orderData[$source['source']] as $orderKey => $orderValue)
         {
             $magentoOrderDetails = $mClient->getSalesOrderDetails($orderKey);
@@ -59,19 +69,24 @@ foreach ($TransactionRevenueMetrics->getRevenuePerSource() as $source) {
 
             foreach ($magentoOrderDetails['items'] as $mProduct) {
 
-                // If a product as no price or non got orderd something we have no need to process this product,
-                //if ($mProduct['price'] > 0 && $mProduct['qty_ordered'] > 0)
+                echo "<b>Product: " . $mProduct['name'] . "</b><br />";
+
                 //
                 // SKU is more accurate
-                $product = R::findOne('product',
-                    'sku = ?',
-                    array($mProduct['sku']));
+                $product = R::find(
+                    'product',
+                    'sku = :sku',
+                    array(
+                        ":sku" => $mProduct['sku']
+                    ));
 
                 if ($product == null) {
                     // When the product doesn't excists create the object
                     $product = R::dispense('product');
                     $product->name = $mProduct['name'];
                     $product->sku = $mProduct['sku'];
+
+                    echo "Wordt toegevoegd  (base: " . $mProduct['base_cost'] . " price: " . $mProduct['price'] . " tax: " . $mProduct['tax_amount'] . " verkocht: " . $mProduct['qty_ordered'] . ")<br />";
 
                     // Set its prices, because those are unknow to
                     $productprice = R::dispense('productprice');
@@ -89,14 +104,18 @@ foreach ($TransactionRevenueMetrics->getRevenuePerSource() as $source) {
                     $product->ownProductprice[] = $productprice;
                     $product->ownProductquantity[] = $productquantity;
                     R::store($product); // store that bitch!
+                    echo "Heeft id " . $product->id . "<br />";
 
                     // First time we have to add this quantity
                     $marketingchannel->ownProductquantity[] = $productquantity;
 
                 } else {
 
+                    echo $mProduct['name'] . " bestaat al, prijzen controleren.. <br />";
+
                     // When the product does excists we have to compare the prices.
-                    $productprices = R::find('productprice',
+                    $productprices = R::find(
+                        'productprice',
                         'productprice_id = :product_id ORDER BY :sort DESC LIMIT 1',
                         array(
                             ':product_id' => $product->getID(),
@@ -120,12 +139,15 @@ foreach ($TransactionRevenueMetrics->getRevenuePerSource() as $source) {
                         if ($pProductprice->base_cost != $mProduct['base_cost']) {
                             $basecost = $mProduct['base_cost'];
                             $price = true;
+                            echo "base cost verschilt<br />";
                         } elseif ($pProductprice->price != $mProduct['price']) {
                             $price = $mProduct['price'];
                             $price = true;
+                            echo "price verschilt<br />";
                         } elseif ($pProductprice->tax_amount != $mProduct['tax_amount']) {
                             $tax_amount = ($mProduct['tax_amount'] / $mProduct['qty_ordered']);
                             $price = true;
+                            echo "tax verschilt<br />";
                         }
 
                         // When the price did change set the variables and add the new product price to the array
@@ -135,6 +157,7 @@ foreach ($TransactionRevenueMetrics->getRevenuePerSource() as $source) {
                             $productprice->price = $price;
                             $productprice->tax_amount = $tax_amount;
                             $product->ownProductprice[] = $productprice;
+                            echo  $mProduct['name'] . " is voorzien van nieuwe prijzen.<br />";
                         }
                     }
 
@@ -157,17 +180,22 @@ foreach ($TransactionRevenueMetrics->getRevenuePerSource() as $source) {
                         // Replace the excisting quantity object
                         $product->ownProductquantity = $productquantity;
                         $quantity = true;
+
+                        echo $mProduct . " is al eerder verkocht via dit kanaal dus we gaan het aantal verhogen met " . $mProduct['qty_ordered'] .  " <br />";
                     }
 
                     // Only when or the quantity or the price was changed store the product
                     if ($quantity || $price) {
                         R::store($product);
+                        echo "De prijs of de quantity zijn veranderd. We update het zaakje..<br />";
                     }
+
+
                 }
-                //}
+                echo "<br />";
             }
         }
+        // Store this channel with all the objects related to it.
+        R::store($marketingchannel);
     }
-    // Store this channel with all the objects related to it.
-    R::store($marketingchannel);
 }
