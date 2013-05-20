@@ -9,14 +9,17 @@
         <table class="table table-hover">
             <thead>
             <tr>
-                <th>Product naam</th>
-                <th>Product prijs</th>
-                <th>Product inkoopkosten</th>
-                <th>Product belasting</th>
-                <th>Hoeveelheid verkocht</th>
-                <th>Product omzet</th>
-                <th>Totale productkosten</th>
-                <th>Product winst</th>
+                <th>Naam</th>
+                <th>Verkoopprijs</th>
+                <th>Inkoopprijs</th>
+                <th>BTW</th>
+                <th>Aantal</th>
+                <th>Omzet</th>
+                <th>Totale kosten</th>
+                <th>Bruto winst</th>
+                <th>Vaste lasten</th>
+                <th>Totale kosten</th>
+                <th>Winst</th>
                 <th>Rendement</th>
             </tr>
             </thead>
@@ -26,8 +29,15 @@
             {
                 foreach ($this->productsbychannelArray as $data)
                 {
+                    $cost = (COSTS / $this->soldProducts) * $data->quantity;
+
+                    $this->calculator->setCosts($cost);
+                    $this->calculator->setRatio($data->revenue / $this->totalRevenue);
+                    $this->calculator->setRevenue($data->revenue);
+                    $this->calculator->setSpecificCosts($data->costs);
+
                     ?>
-                    <tr class="<?= ($data->profit > 0) ? 'success' : 'error' ?>">
+                    <tr class="<?= ($this->calculator->getEfficiency() > 0) ? 'success' : 'error' ?>">
                         <td><strong><?=$data->name?></strong></td>
                         <td>&euro;<?=round($data->price, 2)?></td>
                         <td>&euro;<?=round($data->base_cost, 2)?></td>
@@ -36,16 +46,23 @@
                         <td>&euro;<?=round($data->revenue, 2)?></td>
                         <td>&euro;<?=round($data->costs, 2)?></td>
                         <td>&euro;<?=round($data->profit, 2)?></td>
-                        <td>50%</td>
+                        <td>&euro;<?=round($cost, 2)?></td>
+                        <td>&euro;<?=$this->calculator->getTotalCosts()?></td>
+                        <td>&euro;<?=$this->calculator->getProfit()?></td>
+                        <td><?=$this->calculator->getEfficiency()?>%</td>
                     </tr>
                     <?php
+                    echo "<pre>";
+                    print_r($this->calculator);
+                    echo "</pre>";
+                    //die();
                 }
             }
             ?>
             </tbody>
         </table>
     </div>
-    <?php $this->googleChart->render(); ?>
+
 </div>
 </body>
 </html>
