@@ -166,7 +166,7 @@ foreach ($TransactionRevenueMetrics->getRevenuePerSource() as $source) {
                     $productquantities = $product->ownProductquantity;
                     foreach ($productquantities as $productquantity){
                         $productquantity->quantity = ((int)$productquantity->quantity) + ((int)$mProduct['qty_ordered']);
-                        print_r('nieuwe quantity:' . $productquantity->quantity);
+                        print_r('nieuwe quantity: ' . $productquantity->quantity);
                         $product->ownProductquantity[] = $productquantity;
                         $marketingchannel->ownProductquantity[] = $productquantity;
                     }
