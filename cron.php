@@ -34,11 +34,9 @@ $orderData = $OrderPerMarketingChannel->getOrdersPerChannel(); // all the order 
 //echo "</pre>";
 
 // Loop trough the all sources
-foreach ($TransactionRevenueMetrics->getRevenuePerSource() as $source)
-{
+foreach ($TransactionRevenueMetrics->getRevenuePerSource() as $source) {
     // We only have to check the channel when this channel actually produced any orders. If we can't find any orders we cannot calculate anything.
-    if (array_key_exists($source['source'], $orderData))
-    {
+    if (array_key_exists($source['source'], $orderData)) {
         echo "<b>Marketingkanaal " . $source['source'] . "</b><br />";
 
         $marketingchannel = R::findOne('marketingchannel',
@@ -59,22 +57,20 @@ foreach ($TransactionRevenueMetrics->getRevenuePerSource() as $source)
 
         echo "Heeft " . $source['transactionRevenue'] . " omzet gedraaid.. <br /><br />";
 
-        foreach ($orderData[$source['source']] as $orderKey => $orderValue)
-        {
+        foreach ($orderData[$source['source']] as $orderKey => $orderValue) {
             $magentoOrderDetails = $mClient->getSalesOrderDetails($orderKey);
             //$magentoOrder = new MagentoOrder($magentoOrderDetails['order_id'], $magentoOrderDetails['base_shipping_amount']);
+            $base_shipping_amount = $magentoOrderDetails['base_shipping_amount'];
 
             foreach ($magentoOrderDetails['items'] as $mProduct) {
-
                 echo "<b>Product: " . $mProduct['name'] . "</b><br />";
 
-                //
                 // SKU is more accurate
-                $product = R::find(
+                $product = R::findOne(
                     'product',
-                    'sku = :sku',
+                    'sku = ?',
                     array(
-                        ":sku" => $mProduct['sku']
+                        $mProduct['sku']
                     ));
 
                 if ($product == null) {
@@ -90,6 +86,7 @@ foreach ($TransactionRevenueMetrics->getRevenuePerSource() as $source)
                     $productprice->base_cost = $mProduct['base_cost'];
                     $productprice->price = $mProduct['price'];
                     $productprice->tax_amount = ($mProduct['tax_amount'] / $mProduct['qty_ordered']);
+                    $productprice->base_shipping_amount = $base_shipping_amount;
                     $productprice->timestamp = $now;
 
                     // The quantity is unknown, create that!
@@ -115,7 +112,7 @@ foreach ($TransactionRevenueMetrics->getRevenuePerSource() as $source)
                         'productprice',
                         'productprice_id = :product_id ORDER BY :sort DESC LIMIT 1',
                         array(
-                            ':product_id' => $product->getID(),
+                            ':product_id' => $product->id(),
                             ':sort' => 'timestamp'
                         ));
 
@@ -153,6 +150,7 @@ foreach ($TransactionRevenueMetrics->getRevenuePerSource() as $source)
                             $productprice->basecost = $basecost;
                             $productprice->price = $price;
                             $productprice->tax_amount = $tax_amount;
+                            $productprice->base_shipping_amount = $base_shipping_amount;
                             $product->ownProductprice[] = $productprice;
                             echo  $mProduct['name'] . " is voorzien van nieuwe prijzen.<br />";
                         }
@@ -163,7 +161,7 @@ foreach ($TransactionRevenueMetrics->getRevenuePerSource() as $source)
                         'productquantity',
                         'product_id = :product_id AND :timestamp = :now AND marketingchannel_id = :marketingchannel_id',
                         array(
-                            ':product_id' => $product->getID(),
+                            ':product_id' => $product->id,
                             ':timestamp' => 'timestamp',
                             ':now' => $now,
                             ':marketingchannel_id' => $marketingchannel->getID()

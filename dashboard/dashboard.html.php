@@ -46,8 +46,7 @@
             <thead>
             <tr>
                 <th>Marketing kanaal</th>
-                <th>Kanaal omzet</th>
-                <th>Product omzet</th>
+                <th>Omzet</th>
                 <th>Kosten</th>
                 <th>Winst</th>
                 <th>Rendement</th>
@@ -64,14 +63,18 @@
                     $this->calculator->setRatio($this->totalRevenue / $data->channelrevenue);
                     $this->calculator->setRevenue($data->channelrevenue);
                     $this->calculator->setSpecificCosts($data->cost);
+
+                    /*echo "<pre>";
+                    print_r($this->calculator);
+                    echo "</pre>";
+                    die();*/
                 ?>
-                <tr class="<?= ($data->profit > 0) ? 'success' : 'error' ?>">
-                    <td><strong><a href="channel.php?id=<?= $data->id ?>"><?=$data->name?></a></strong></td>
+                <tr class="<?= ($this->calculator->getEfficiency() > 0) ? 'success' : 'error' ?>">
+                    <td><strong><a href="channel.php?id=<?= $data->id?>&from=<?=$_GET['from']?>"><?=$data->name?></a></strong></td>
                     <td>&euro;<?=round($data->channelrevenue, 2)?></td>
-                    <td>&euro;<?=round($data->productrevenue, 2)?></td>
-                    <td>&euro;<?=round($data->cost, 2)?></td>
-                    <td>&euro;<?=round($data->profit, 2)?></td>
-                    <td><?=$this->calculator->getEfficiency()?>%</td>
+                    <td>&euro;<?=round($data->cost + $this->calculator->getCostRatioReadable(), 2)?></td>
+                    <td>&euro;<?=round($this->calculator->getProfitRatioSpecificReadable(), 2)?></td>
+                    <td><?=$this->calculator->getRatioEfficiency()?>%</td>
                 </tr>
                 <?php
                 }
