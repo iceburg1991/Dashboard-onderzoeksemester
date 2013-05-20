@@ -21,11 +21,13 @@ $settings = R::load('settings', 1);
 $time = time();
 $ratio = cal_days_in_month(CAL_GREGORIAN, date('n', $time), date('Y', $time));
 
-if ($_GET['from'] == 'week') {
-    // Do not round, otherwise this is always 4, although its not exact 4.
-    $ratio = $ratio / 7;
-} else if ($_GET['from'] == 'month') {
-    $ratio = 1;
+if (isset($_GET['from'])) {
+    if ($_GET['from'] == 'week') {
+        // Do not round, otherwise this is always 4, although its not exact 4.
+        $ratio = $ratio / 7;
+    } else if ($_GET['from'] == 'month') {
+        $ratio = 1;
+    }
 }
 
 define("COSTS", ($settings->costs / $ratio));
