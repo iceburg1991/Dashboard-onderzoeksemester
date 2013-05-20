@@ -42,6 +42,7 @@ class ChannelDashboard {
             AND pr.product_id = pq.product_id
             GROUP BY p.name
             ");
+
         // Extract data
         $results = R::convertToBeans('marketingchannelrevenue', $rows);
 

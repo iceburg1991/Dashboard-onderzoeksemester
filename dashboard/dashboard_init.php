@@ -4,7 +4,6 @@ require_once dirname(__FILE__) . '/dashboard.php';
 
 class Dashboard_init
 {
-
     public function showDashboard($scope = 7)
     {
         $dashboard = new Dashboard($scope);

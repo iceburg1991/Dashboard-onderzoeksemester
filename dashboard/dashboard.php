@@ -11,31 +11,31 @@ class Dashboard
     public $revenueCostProfitArray;
     public $googleChart;
     public $calculator;
-    public $from;
+
+    private $from;
+    private $to;
 
     public function __construct($from = 7)
     {
+        $this->from = date('Y-m-d', time() - $from * 24 * 60 * 60);;
+        $this->to = date('Y-m-d', time());
+
         $this->setTotalProfitArray();
         $this->setRevenueCostProfitArray();
         $this->createGoogleChart();
         $this->getTotalRevenue();
         $this->calculator = new Calculator();
-        $this->from = $from;
     }
 
     private function setTotalProfitArray()
     {
-        // 7 day time filter
-        $from = date('Y-m-d', time() - $this->from * 24 * 60 * 60);
-        $to = date('Y-m-d H:00:00', time() + 2 * 60 * 60); // +2 hours because of the server time.
-
         // Data
         $rows = R::getAll("
             SELECT mc.id AS id, mc.name AS name,
             SUM(mcr.channel_revenue) AS revenue
             FROM marketingchannel mc, marketingchannelrevenue mcr
-            WHERE mcr.timestamp >= '" . $from . "'
-            AND mcr.timestamp <= '". $to . "'
+            WHERE mcr.timestamp >= \"" . $this->from . "\"
+            AND mcr.timestamp <= \"". $this->to . "\"
             AND mc.id = mcr.marketingchannel_id
             GROUP BY mc.name");
         // Extract data
@@ -52,10 +52,7 @@ class Dashboard
 
     private function setRevenueCostProfitArray()
     {
-        $from = date('Y-m-d', time() - $this->from * 24 * 60 * 60);
-        $to = date('Y-m-d H:00:00', time() + 2 * 60 * 60); // +2 hours because of the server time.
-
-        $q = "SELECT mc.id, mc.name,
+         $q = "SELECT mc.id, mc.name,
             SUM(mcr.channel_revenue) AS channelrevenue,
             SUM(pr.price * pq.quantity) AS productrevenue,
             SUM((pr.base_cost + pr.tax_amount) * pq.quantity) AS cost,
@@ -65,11 +62,11 @@ class Dashboard
             AND pq.product_id = p.id
             AND pq.marketingchannel_id = mc.id
             AND mcr.marketingchannel_id = mc.id
-            AND pq.timestamp >= " . $from . "
-            AND pq.timestamp <= " . $to .  "
+            AND pq.timestamp >= \"" . $this->from . "\"
+            AND pq.timestamp <= \"" . $this->to .  "\"
             GROUP BY mc.id";
 
-        echo $q;
+        //echo $q;
 
         // Data
         $rows = R::getAll($q);
@@ -112,15 +109,11 @@ class Dashboard
 
     private function getTotalRevenue()
     {
-        $from = date('Y-m-d', time() - $this->from * 24 * 60 * 60);
-        $to = date('Y-m-d H:00:00', time() + 2 * 60 * 60); // +2 hours because of the server time.
-
-        // Data
         $rows = R::getAll(
             "SELECT id, SUM( channel_revenue ) AS revenue
             FROM marketingchannelrevenue
-            WHERE timestamp >= " . $from . "
-            AND timestamp <= " . $to .  "");
+            WHERE timestamp >= \"" . $this->from . "\"
+            AND timestamp <= \"" . $this->to .  "\"");
 
         // Extract data
         $results = R::convertToBeans('marketingchannelrevenue', $rows);
