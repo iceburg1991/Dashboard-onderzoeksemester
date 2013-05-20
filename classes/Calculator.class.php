@@ -150,7 +150,7 @@ class Calculator
     /**
      * @return float
      */
-    public function calculateEfficiency()
+    public function calculateRatioEfficiency()
     {
         return $this->calculateProfitRatioSpecific() / ($this->calculateCostRatio() + $this->_specificCosts);
     }
@@ -158,9 +158,58 @@ class Calculator
     /**
      * @return float
      */
-    public function getEfficiency()
+    public function getRatioEfficiency()
     {
         return round($this->calculateEfficiency() * 100, 2);
+    }
+
+    /**
+     * Calculates total costs
+     * @return float
+     */
+    public function calculateTotalCosts()
+    {
+        return $this->_costs + $this->_specificCosts;
+    }
+
+    /**
+     * @return float
+     */
+    public function getTotalCosts()
+    {
+        return round($this->getTotalCosts(), 2);
+    }
+
+    /**
+     * @return float
+     */
+    public function calculateProfit()
+    {
+        return $this->_revenue - $this->_costs - $this->_specificCosts;
+    }
+
+    /**
+     * @return float
+     */
+    public function getProfit()
+    {
+        return round($this->calculateProfit(), 2);
+    }
+
+    /**
+     * @return float
+     */
+    public function calculateEfficiency()
+    {
+        return $this->calculateProfit() / $this->calculateTotalCosts();
+    }
+
+    /**
+     * @return float
+     */
+    public function getEfficiency()
+    {
+        return round($this->calculateEfficiency(), 2);
     }
 }
 
