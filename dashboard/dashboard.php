@@ -30,7 +30,14 @@ class Dashboard
         $to = date('Y-m-d H:00:00', time() + 2 * 60 * 60); // +2 hours because of the server time.
 
         // Data
-        $rows = R::getAll("SELECT mc.id AS id, mc.name AS name, SUM(mcr.channel_revenue) AS revenue FROM marketingchannel mc, marketingchannelrevenue mcr WHERE mcr.timestamp >= '" . $from . "' AND mcr.timestamp <= '". $to . "' AND mc.id = mcr.marketingchannel_id GROUP BY mc.name");
+        $rows = R::getAll("
+            SELECT mc.id AS id, mc.name AS name,
+            SUM(mcr.channel_revenue) AS revenue
+            FROM marketingchannel mc, marketingchannelrevenue mcr
+            WHERE mcr.timestamp >= '" . $from . "'
+            AND mcr.timestamp <= '". $to . "'
+            AND mc.id = mcr.marketingchannel_id
+            GROUP BY mc.name");
         // Extract data
         $channels = R::convertToBeans('marketingchannelrevenue', $rows);
 
@@ -48,9 +55,7 @@ class Dashboard
         $from = date('Y-m-d', time() - $this->from * 24 * 60 * 60);
         $to = date('Y-m-d H:00:00', time() + 2 * 60 * 60); // +2 hours because of the server time.
 
-        // Data
-        $rows = R::getAll("
-            SELECT mc.id, mc.name,
+        $q = "SELECT mc.id, mc.name,
             SUM(mcr.channel_revenue) AS channelrevenue,
             SUM(pr.price * pq.quantity) AS productrevenue,
             SUM((pr.base_cost + pr.tax_amount) * pq.quantity) AS cost,
@@ -60,8 +65,15 @@ class Dashboard
             AND pq.product_id = p.id
             AND pq.marketingchannel_id = mc.id
             AND mcr.marketingchannel_id = mc.id
-            AND pq.timestamp >= " . $from . " AND pq.timestamp <= " . $to .  "
-            GROUP BY mc.id");
+            AND pq.timestamp >= " . $from . "
+            AND pq.timestamp <= " . $to .  "
+            GROUP BY mc.id";
+
+        echo $q;
+
+        // Data
+        $rows = R::getAll($q);
+
         // Extract data
         $results = R::convertToBeans('marketingchannelrevenue', $rows);
 
@@ -104,10 +116,11 @@ class Dashboard
         $to = date('Y-m-d H:00:00', time() + 2 * 60 * 60); // +2 hours because of the server time.
 
         // Data
-        $rows = R::getAll("
-            SELECT id, SUM( channel_revenue ) AS revenue
+        $rows = R::getAll(
+            "SELECT id, SUM( channel_revenue ) AS revenue
             FROM marketingchannelrevenue
-            WHERE timestamp >= " . $from . " AND timestamp <= " . $to .  "");
+            WHERE timestamp >= " . $from . "
+            AND timestamp <= " . $to .  "");
 
         // Extract data
         $results = R::convertToBeans('marketingchannelrevenue', $rows);
@@ -119,5 +132,4 @@ class Dashboard
         return;
     }
 }
-
 ?>
