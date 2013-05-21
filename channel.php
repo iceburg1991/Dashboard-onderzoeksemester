@@ -11,22 +11,10 @@
 session_start();
 
 if (isset($_COOKIE['scope'])) {
-    $from = $_COOKIE['scope'];
-    switch($from) {
-        case 'day':
-            $scope = 1;
-            break;
-        case 'week':
-            $scope = 7;
-            break;
-        case 'month':
-            $scope = 31;
-            break;
-    }
+    $scope = $_COOKIE['scope'];
 } else {
-    $value = 'day';
-    setcookie('scope', $value);
     $scope = 1;
+    setcookie('scope', $scope);
 }
 
 // Turn on all error reporting

@@ -12,6 +12,7 @@
                 <th>Naam</th>
                 <th>Verkoopprijs</th>
                 <th>Inkoopprijs</th>
+                <th>Verzendkosten</th>
                 <th>BTW</th>
                 <th>Aantal</th>
                 <th>Omzet</th>
@@ -42,6 +43,7 @@
                         <td><strong><?=$data->name?></strong></td>
                         <td>&euro;<?=round($data->price, 2)?></td>
                         <td>&euro;<?=round($data->base_cost, 2)?></td>
+                        <td>&euro;<?=round($data->base_shipping_amount, 2)?></td>
                         <td>&euro;<?=round($data->tax_amount, 2)?></td>
                         <td><?=$data->quantity?></td>
                         <td>&euro;<?=round($data->revenue, 2)?></td>
