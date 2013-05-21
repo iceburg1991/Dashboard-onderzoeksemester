@@ -152,6 +152,7 @@ class Calculator
      */
     public function calculateRatioEfficiency()
     {
+        //echo "(( " . $this->_revenue . " - " . $this->_costs . ") * " . $this->_ratio. ") - " . $this->_specificCosts . "/( " .$this->calculateCostRatio() ." + " .$this->_specificCosts . ")";
         return $this->calculateProfitRatioSpecific() / ($this->calculateCostRatio() + $this->_specificCosts);
     }
 
@@ -160,7 +161,7 @@ class Calculator
      */
     public function getRatioEfficiency()
     {
-        return round($this->calculateEfficiency() * 100, 2);
+        return round($this->calculateRatioEfficiency() * 100, 2);
     }
 
     /**
@@ -177,7 +178,7 @@ class Calculator
      */
     public function getTotalCosts()
     {
-        return round($this->getTotalCosts(), 2);
+        return round($this->calculateTotalCosts(), 2);
     }
 
     /**
