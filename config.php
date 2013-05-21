@@ -7,6 +7,7 @@
  * To change this template use File | Settings | File Templates.
  */
 
+// Set datetime
 date_default_timezone_set("Europe/Amsterdam");
 
 // Google Console Credentials

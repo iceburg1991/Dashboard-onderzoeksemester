@@ -21,9 +21,6 @@ require_once dirname(__FILE__) . '/includes/header.php';
 
 // Navigation HTML
 require_once dirname(__FILE__) . '/includes/nav.php';
-/**
- * @TODO: make this part of code more senseable
- */
 ?>
 <section class="onerow full color1">
     <div class="onepcssgrid-1200">
