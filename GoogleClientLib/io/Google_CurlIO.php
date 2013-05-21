@@ -37,10 +37,10 @@ class Google_CurlIO implements Google_IO
     private $curlParams = array(
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_FOLLOWLOCATION => 0,
-        CURLOPT_FAILONERROR    => false,
+        CURLOPT_FAILONERROR => false,
         CURLOPT_SSL_VERIFYPEER => true,
-        CURLOPT_HEADER         => true,
-        CURLOPT_VERBOSE        => false,
+        CURLOPT_HEADER => true,
+        CURLOPT_VERBOSE => false,
     );
 
     /**
@@ -50,7 +50,6 @@ class Google_CurlIO implements Google_IO
      * and then calls apiCurlIO::makeRequest on the signed request
      *
      * @param Google_HttpRequest $request
-     *
      * @return Google_HttpRequest The resulting HTTP response including the
      * responseHttpCode, responseHeaders and responseBody.
      */
@@ -64,7 +63,6 @@ class Google_CurlIO implements Google_IO
      * Execute a apiHttpRequest
      *
      * @param Google_HttpRequest $request the http request to be executed
-     *
      * @return Google_HttpRequest http request with the response http code, response
      * headers and response body filled in
      * @throws Google_IOException on curl or IO error
@@ -120,7 +118,7 @@ class Google_CurlIO implements Google_IO
         // Retry if certificates are missing.
         if (curl_errno($ch) == CURLE_SSL_CACERT) {
             error_log('SSL certificate problem, verify that the CA cert is OK.'
-            . ' Retrying with the CA cert bundle from google-api-php-client.');
+                . ' Retrying with the CA cert bundle from google-api-php-client.');
             curl_setopt($ch, CURLOPT_CAINFO, dirname(__FILE__) . '/cacerts.pem');
             $respData = curl_exec($ch);
         }
@@ -170,12 +168,10 @@ class Google_CurlIO implements Google_IO
 
     /**
      * @visible for testing.
-     *          Cache the response to an HTTP request if it is cacheable.
-     *
+     * Cache the response to an HTTP request if it is cacheable.
      * @param Google_HttpRequest $request
-     *
      * @return bool Returns true if the insertion was successful.
-     *          Otherwise, return false.
+     * Otherwise, return false.
      */
     public function setCachedRequest(Google_HttpRequest $request)
     {
@@ -190,11 +186,9 @@ class Google_CurlIO implements Google_IO
 
     /**
      * @visible for testing.
-     *
      * @param Google_HttpRequest $request
-     *
      * @return Google_HttpRequest|bool Returns the cached object or
-     *          false if the operation was unsuccessful.
+     * false if the operation was unsuccessful.
      */
     public function getCachedRequest(Google_HttpRequest $request)
     {
@@ -208,7 +202,6 @@ class Google_CurlIO implements Google_IO
     /**
      * @param $respData
      * @param $headerSize
-     *
      * @return array
      */
     public static function parseHttpResponse($respData, $headerSize)
@@ -249,10 +242,8 @@ class Google_CurlIO implements Google_IO
 
     /**
      * @visible for testing
-     *          Process an http request that contains an enclosed entity.
-     *
+     * Process an http request that contains an enclosed entity.
      * @param Google_HttpRequest $request
-     *
      * @return Google_HttpRequest Processed request with the enclosed entity.
      */
     public function processEntityRequest(Google_HttpRequest $request)

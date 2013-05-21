@@ -83,7 +83,7 @@
             </tbody>
         </table>
     </div>
-    <?php $this->googleChart->render(); ?>
+    <?php $this->googleChart->showGoogleChart();  ?>
 </div>
 </body>
 </html>
