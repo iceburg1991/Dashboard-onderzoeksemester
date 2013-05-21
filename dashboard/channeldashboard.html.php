@@ -25,6 +25,7 @@
             </thead>
             <tbody>
             <?php
+
             if (sizeof($this->productsbychannelArray) > 0)
             {
                 foreach ($this->productsbychannelArray as $data)
@@ -52,17 +53,12 @@
                         <td><?=$this->calculator->getEfficiency()?>%</td>
                     </tr>
                     <?php
-                    echo "<pre>";
-                    print_r($this->calculator);
-                    echo "</pre>";
-                    //die();
                 }
             }
             ?>
             </tbody>
         </table>
     </div>
-
 </div>
 </body>
 </html>
