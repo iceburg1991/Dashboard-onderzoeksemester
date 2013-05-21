@@ -210,7 +210,7 @@ class Calculator
      */
     public function getEfficiency()
     {
-        return round($this->calculateEfficiency(), 2);
+        return round($this->calculateEfficiency() * 100, 2);
     }
 }
 
