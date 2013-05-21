@@ -153,37 +153,25 @@ foreach ($TransactionRevenueMetrics->getRevenuePerSource() as $source) {
                             $productprice->base_shipping_amount = ($base_shipping_amount / $mProduct['qty_ordered']);
                             $product->ownProductprice[] = $productprice;
                             echo  $mProduct['name'] . " is voorzien van nieuwe prijzen.<br />";
+                        } else {
+                            echo "De prijs is niet veranderd.<br />";
                         }
                     }
 
+                    echo "Nu het aantal verkocht ophogen..<br />";
+
+
+                    //R::debug(true);
                     // If this product got sold before trough this channel add the quantity to this product
-                    $productquantity = R::findOne(
-                        'productquantity',
-                        'product_id = :product_id AND :timestamp = :now AND marketingchannel_id = :marketingchannel_id',
-                        array(
-                            ':product_id' => $product->id,
-                            ':timestamp' => 'timestamp',
-                            ':now' => $now,
-                            ':marketingchannel_id' => $marketingchannel->getID()
-                        ));
-
-                    // When we find something..
-                    $quantity = false;
-                    if ($productquantity != null) {
-                        // Add up the quantity..
-                        $productquantity->quantity += $mProduct['qty_ordered'];
-                        // Replace the excisting quantity object
-                        $product->ownProductquantity = $productquantity;
-                        $quantity = true;
-
-                        echo $mProduct . " is al eerder verkocht via dit kanaal dus we gaan het aantal verhogen met " . $mProduct['qty_ordered'] .  " <br />";
+                    $productquantities = $product->ownProductquantity;
+                    foreach ($productquantities as $productquantity){
+                        $productquantity->quantity = ((int)$productquantity->quantity) + ((int)$mProduct['qty_ordered']);
+                        print_r('nieuwe quantity: ' . $productquantity->quantity);
+                        $product->ownProductquantity[] = $productquantity;
+                        $marketingchannel->ownProductquantity[] = $productquantity;
                     }
-
-                    // Only when or the quantity or the price was changed store the product
-                    if ($quantity || $price) {
-                        R::store($product);
-                        echo "De prijs of de quantity zijn veranderd. We update het zaakje..<br />";
-                    }
+                    R::store($product);
+                    echo "De prijs of de quantity zijn veranderd. We update het zaakje..<br />";
 
 
                 }
