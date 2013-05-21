@@ -63,18 +63,23 @@ class Dashboard
          $q = " SELECT
                 mc.id,
                 mc.name,
-                SUM(DISTINCT(mcr.channel_revenue)) AS channelrevenue,
-                SUM((pr.base_cost + pr.tax_amount) * pq.quantity) AS cost, SUM((pr.price - pr.base_cost - pr.tax_amount) * pq.quantity) AS profit
-                FROM productprice pr, productquantity pq, marketingchannel mc, marketingchannelrevenue mcr
+                mcr.channel_revenue,
+                SUM((pr.base_cost + pr.tax_amount + pr.base_shipping_amount) * pq.quantity)  AS cost,
+                mcr.channel_revenue - SUM((pr.base_cost + pr.tax_amount + pr.base_shipping_amount) * pq.quantity) AS profit
+
+                FROM productprice pr, productquantity pq, marketingchannel mc, marketingchannelrevenue mcr, product p
+
                 WHERE pr.product_id = pq.product_id
-                AND mc.id  = pq.marketingchannel_id
+                AND p.id = pq.product_id
+                AND mc.id = pq.marketingchannel_id
                 AND mcr.marketingchannel_id = pq.marketingchannel_id
                 AND pq.timestamp >= \"" . $this->from . "\"
-                AND pq.timestamp <= \"" . $this->to . "\"
-                GROUP BY mc.id";
+                AND pq.timestamp <= \"" . $this->to .  "\"
+
+                GROUP BY mc.name";
 
         // Debug
-        //echo $q;
+        echo $q;
 
         // Data
         $rows = R::getAll($q);
@@ -100,7 +105,7 @@ class Dashboard
         $q =
             "   SELECT
                 id,
-                SUM( channel_revenue ) AS revenue
+                SUM(channel_revenue ) AS revenue
                 FROM marketingchannelrevenue
                 WHERE timestamp >= \"" . $this->from . "\"
                 AND timestamp <= \"" . $this->to .  "\"";
@@ -119,5 +124,25 @@ class Dashboard
 
         return;
     }
+
+    /*
+     *  SELECT
+        mc.id,
+        mc.name,
+        mcr.channel_revenue,
+        SUM((pr.base_cost + pr.tax_amount + pr.base_shipping_amount) * pq.quantity)  AS cost,
+        mcr.channel_revenue - SUM((pr.base_cost + pr.tax_amount + pr.base_shipping_amount) * pq.quantity) AS profit
+
+        FROM productprice pr, productquantity pq, marketingchannel mc, marketingchannelrevenue mcr, product p
+
+        WHERE pr.product_id = pq.product_id
+        AND p.id = pq.product_id
+        AND mc.id = pq.marketingchannel_id
+        AND mcr.marketingchannel_id = pq.marketingchannel_id
+        AND pq.timestamp >= "2013-05-19"
+        AND pq.timestamp <= "2013-05-21 08:40:59"
+
+        GROUP BY mc.name
+     */
 }
 ?>

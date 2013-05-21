@@ -26,6 +26,7 @@ class ChannelDashboard {
     public function __construct($channelId, $scope)
     {
         $this->channelId = $channelId;
+
         $this->from = date('Y-m-d', time() - $scope * 24 * 60 * 60);
         $this->to = date('Y-m-d H:i:s', time());
 

@@ -60,23 +60,23 @@
 
                 foreach ($this->revenueCostProfitArray as $data)
                 {
-                    $this->calculator->setRatio($this->totalRevenue / $data->channelrevenue);
+                    $this->calculator->setRatio($data->channelrevenue / $this->totalRevenue);
                     $this->calculator->setRevenue($data->channelrevenue);
                     $this->calculator->setSpecificCosts($data->cost);
-
-                    /*echo "<pre>";
-                    print_r($this->calculator);
-                    echo "</pre>";
-                    die();*/
                 ?>
                 <tr class="<?= ($this->calculator->getEfficiency() > 0) ? 'success' : 'error' ?>">
                     <td><strong><a href="channel.php?id=<?= $data->id?>&from=<?=$_GET['from']?>"><?=$data->name?></a></strong></td>
                     <td>&euro;<?=round($data->channelrevenue, 2)?></td>
-                    <td>&euro;<?=round($data->cost + $this->calculator->getCostRatioReadable(), 2)?></td>
+                    <td>&euro;<?=round($this->calculator->getCostRatioReadable() + $this->calculator->getSpecificCosts(), 2)?></td>
                     <td>&euro;<?=round($this->calculator->getProfitRatioSpecificReadable(), 2)?></td>
                     <td><?=$this->calculator->getRatioEfficiency()?>%</td>
                 </tr>
                 <?php
+                    echo "<pre>";
+                    print_r($this->calculator);
+                    print_r($data);
+                    echo "</pre>";
+                    //die();
                 }
             }
             ?>
