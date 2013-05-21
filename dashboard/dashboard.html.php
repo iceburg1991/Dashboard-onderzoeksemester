@@ -56,22 +56,27 @@
             <?php
             if (sizeof($this->revenueCostProfitArray) > 0)
             {
+                $this->calculator->setCosts(COSTS);
+
                 foreach ($this->revenueCostProfitArray as $data)
                 {
-                    $ratio = round($data->channelrevenue / $this->totalRevenue, 2);
-                    $cost = round(COSTS * $ratio, 2);
-                    $totalcost = $cost + $data->cost;
-                    $profit = $data->channelrevenue - $cost - $data->cost;
-                    $efficiency = round($profit / $totalcost * 100, 2);
+                    $this->calculator->setRatio($data->channelrevenue / $this->totalRevenue);
+                    $this->calculator->setRevenue($data->channelrevenue);
+                    $this->calculator->setSpecificCosts($data->cost);
                 ?>
-                <tr class="<?= ($efficiency > 0) ? 'success' : 'error' ?>">
-                    <td><strong><a href="channel.php?id=<?= $data->id?>&from=<?=$_COOKIE['scope']?>"><?=$data->name?></a></strong></td>
+                <tr class="<?= ($this->calculator->getEfficiency() > 0) ? 'success' : 'error' ?>">
+                    <td><strong><a href="channel.php?id=<?=$data->id ?>&from=<?=isset($_GET['from']) ? $_GET['from'] : "day"; ?>"><?=$data->name?></a></strong></td>
                     <td>&euro;<?=round($data->channelrevenue, 2)?></td>
-                    <td>&euro;<?=round($totalcost, 2)?></td>
-                    <td>&euro;<?=round($profit, 2)?></td>
-                    <td><?=$efficiency?>%</td>
+                    <td>&euro;<?=round($this->calculator->getCostRatioReadable() + $this->calculator->getSpecificCosts(), 2)?></td>
+                    <td>&euro;<?=round($this->calculator->getProfitRatioSpecificReadable(), 2)?></td>
+                    <td><?=$this->calculator->getRatioEfficiency()?>%</td>
                 </tr>
                 <?php
+                    echo "<pre>";
+                    print_r($this->calculator);
+                    print_r($data);
+                    echo "</pre>";
+                    //die();
                 }
             }
             ?>
