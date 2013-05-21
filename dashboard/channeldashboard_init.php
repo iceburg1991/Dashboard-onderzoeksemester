@@ -19,5 +19,3 @@ class ChannelDashboard_init
         return $main->render();
     }
 }
-
-?>

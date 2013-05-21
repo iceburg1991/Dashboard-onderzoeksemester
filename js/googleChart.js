@@ -27,6 +27,7 @@ function drawChart() {
     var data = new google.visualization.DataTable();
     data.addColumn('string', 'Topping');
     data.addColumn('number', 'Slices');
+    $.ajax();
     data.addRows([
         ['Kieskeurig.nl', 100],
         ['beslist.nl', 50],
