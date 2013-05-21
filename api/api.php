@@ -15,7 +15,7 @@ require_once dirname(__FILE__) . '/../config.php';
 require ('../RedbeanPHPLib/rb.php');
 R::setup('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME . '', '' . DB_USERNAME . '', '' . DB_PASS . '');
 
-if (isset($_POST['action']) && $_POST['action'] == 'get') {
+if (isset($_POST['action']) && $_POST['action'] == 'get-chart-data') {
     $scope = $_COOKIE['scope'];
     $from = date('Y-m-d', time() - $scope * 24 * 60 * 60);
     $to = date('Y-m-d H:i:s', time());

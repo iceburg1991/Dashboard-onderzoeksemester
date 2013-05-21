@@ -13,9 +13,9 @@
         <nav class="col8 last">
             <div>
                 <ul id="mainnav">
-                    <li id="menu-item-48"><a href="index.php" onclick="clickDay(); return false;">Dag niveau</a></li>
-                    <li id="menu-item-288"><a href="index.php" onclick="clickWeek(); return false;">Week niveau</a></li>
-                    <li id="menu-item-288"><a href="index.php" onclick="clickMonth(); return false;">Maand niveau</a></li>
+                    <li id="menu-item-48"><a href="<?= $_SERVER['PHP_SELF'] ?>" onclick="clickDay();">Dag niveau</a></li>
+                    <li id="menu-item-288"><a href="<?= $_SERVER['PHP_SELF'] ?>" onclick="clickWeek();">Week niveau</a></li>
+                    <li id="menu-item-288"><a href="<?= $_SERVER['PHP_SELF'] ?>" onclick="clickMonth();">Maand niveau</a></li>
                     <li id="menu-item-48"><a href="settings.php">Instellingen</a></li>
                 </ul>
                 <i class="selnav icon-align-justify"></i>

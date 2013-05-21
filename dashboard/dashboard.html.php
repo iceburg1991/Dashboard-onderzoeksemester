@@ -65,7 +65,7 @@
                     $this->calculator->setSpecificCosts($data->cost);
                 ?>
                 <tr class="<?= ($this->calculator->getEfficiency() > 0) ? 'success' : 'error' ?>">
-                    <td><strong><a href="channel.php?id=<?=$data->id ?>&from=<?=isset($_GET['from']) ? $_GET['from'] : "day"; ?>"><?=$data->name?></a></strong></td>
+                    <td><strong><a href="channel.php?id=<?=$data->id ?>"><?=$data->name?></a></strong></td>
                     <td>&euro;<?=round($data->channelrevenue, 2)?></td>
                     <td>&euro;<?=round($this->calculator->getCostRatioReadable() + $this->calculator->getSpecificCosts(), 2)?></td>
                     <td>&euro;<?=round($this->calculator->getProfitRatioSpecificReadable(), 2)?></td>

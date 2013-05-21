@@ -4,5 +4,5 @@
 
 <!--Div that will hold the pie chart-->
 <div id="chart_div">
-    <script> showGoogleChart(); </script>
+    <script> loadChart(); </script>
 </div>
