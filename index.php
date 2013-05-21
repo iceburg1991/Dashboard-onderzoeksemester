@@ -3,7 +3,7 @@
 session_start();
 
 // Turn on all error reporting
-error_reporting(E_ALL);
+error_reporting(-1);
 
 // Include all required files
 require_once dirname(__FILE__) . '/includes.php';
@@ -18,28 +18,14 @@ require_once dirname(__FILE__) . '/includes/nav.php';
  */
 ?>
 <section class="onerow full color1">
-<div class="onepcssgrid-1200">
-    <?php
+    <div class="onepcssgrid-1200">
+        <?php
 
-    echo dirname(__FILE__);
-
-    $scope = 1;
-    $from = 'day';
-
-    if (isset($_GET['from'])) {
-        $from = $_GET['from'];
-        if ($from == 'week') {
-            $scope = 7;
-        } elseif ($from == 'month') {
-            $scope = 30;
-        }
-    }
-
-    require_once dirname(__FILE__) . '/dashboard/dashboard_init.php';
-    $dashboard_init = new Dashboard_init();
-    $dashboard_init->showDashboard($scope);
-    ?>
-</div>
+        require_once dirname(__FILE__) . '/dashboard/dashboard_init.php';
+        $dashboard_init = new Dashboard_init();
+        $dashboard_init->showDashboard($scope);
+        ?>
+    </div>
 </section>
 </body>
 </html>
