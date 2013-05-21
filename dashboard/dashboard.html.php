@@ -65,7 +65,7 @@
                     $efficiency = round($profit / $totalcost * 100, 2);
                 ?>
                 <tr class="<?= ($efficiency > 0) ? 'success' : 'error' ?>">
-                    <td><strong><a href="channel.php?id=<?= $data->id?>&from=<?=$from?>"><?=$data->name?></a></strong></td>
+                    <td><strong><a href="channel.php?id=<?= $data->id?>&from=<?=$_COOKIE['scope']?>"><?=$data->name?></a></strong></td>
                     <td>&euro;<?=round($data->channelrevenue, 2)?></td>
                     <td>&euro;<?=round($totalcost, 2)?></td>
                     <td>&euro;<?=round($profit, 2)?></td>
