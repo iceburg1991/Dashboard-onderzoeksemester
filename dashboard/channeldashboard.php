@@ -51,11 +51,12 @@ class ChannelDashboard {
             p.name AS name,
             pr.price AS price,
             pr.base_cost AS base_cost,
+            pr.base_shipping_amount as base_shipping_amount,
             pr.tax_amount AS tax_amount,
             pq.quantity AS quantity,
             SUM(DISTINCT(pr.price * pq.quantity)) AS revenue,
-            SUM(DISTINCT(pr.base_cost + pr.tax_amount) * pq.quantity) AS costs,
-            SUM(DISTINCT(pr.price - pr.base_cost - pr.tax_amount) * pq.quantity) AS profit
+            SUM(DISTINCT(pr.base_cost + pr.tax_amount + pr.base_shipping_amount) * pq.quantity) AS costs,
+            SUM(DISTINCT(pr.price - pr.base_cost - pr.tax_amount - pr.base_shipping_amount) * pq.quantity) AS profit
 
             FROM product p, productquantity pq, marketingchannel mc, productprice pr
             WHERE pq.marketingchannel_id = " . $this->channelId . "
