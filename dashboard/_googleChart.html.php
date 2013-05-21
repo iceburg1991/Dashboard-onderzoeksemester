@@ -1,4 +1,5 @@
 <!--Load the AJAX API-->
+<!--
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script type="text/javascript">
 
@@ -18,10 +19,10 @@
         data.addColumn('string', 'Topping');
         data.addColumn('number', 'Slices');
         data.addRows([
-            ['Kieskeurig.nl', 3],
-            ['beslist.nl', 1],
-            ['Vergelijk', 1],
-            ['Tweakers Pricewatch', 2],
+            ['Kieskeurig.nl', 100],
+            ['beslist.nl', 50],
+            ['Vergelijk', 15],
+            ['Tweakers Pricewatch', 10],
         ]);
 
         // Set chart options
@@ -34,6 +35,13 @@
         chart.draw(data, options);
     }
 </script>
+-->
+
+
+
+
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript" src="../js/googleChart.js"></script>
 
 <!--Div that will hold the pie chart-->
 <div id="chart_div"></div>

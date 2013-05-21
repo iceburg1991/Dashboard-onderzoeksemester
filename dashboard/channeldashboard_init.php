@@ -18,16 +18,6 @@ class ChannelDashboard_init
         $main = new Template('channeldashboard.html.php', $dashboard);
         return $main->render();
     }
-
-    /*public function showDashboard(){
-        $dashboard = new Dashboard();
-
-        $main = new Template('dashboard.html.php', array(
-            'title' => $dashboard->title,
-            'isPositiveProfit' => $dashboard->aIsPositiveProfit
-        ));
-        return $main->render();
-    }*/
 }
 
 ?>

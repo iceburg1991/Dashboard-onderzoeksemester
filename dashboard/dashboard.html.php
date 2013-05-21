@@ -56,25 +56,20 @@
             <?php
             if (sizeof($this->revenueCostProfitArray) > 0)
             {
-                $this->calculator->setCosts(COSTS);
-
                 foreach ($this->revenueCostProfitArray as $data)
                 {
-                    $this->calculator->setRatio($this->totalRevenue / $data->channelrevenue);
-                    $this->calculator->setRevenue($data->channelrevenue);
-                    $this->calculator->setSpecificCosts($data->cost);
-
-                    /*echo "<pre>";
-                    print_r($this->calculator);
-                    echo "</pre>";
-                    die();*/
+                    $ratio = round($data->channelrevenue / $this->totalRevenue, 2);
+                    $cost = round(COSTS * $ratio, 2);
+                    $totalcost = $cost + $data->cost;
+                    $profit = $data->channelrevenue - $cost - $data->cost;
+                    $efficiency = round($profit / $totalcost * 100, 2);
                 ?>
-                <tr class="<?= ($this->calculator->getEfficiency() > 0) ? 'success' : 'error' ?>">
-                    <td><strong><a href="channel.php?id=<?= $data->id?>&from=<?=$_GET['from']?>"><?=$data->name?></a></strong></td>
+                <tr class="<?= ($efficiency > 0) ? 'success' : 'error' ?>">
+                    <td><strong><a href="channel.php?id=<?= $data->id?>&from=<?=$_COOKIE['scope']?>"><?=$data->name?></a></strong></td>
                     <td>&euro;<?=round($data->channelrevenue, 2)?></td>
-                    <td>&euro;<?=round($data->cost + $this->calculator->getCostRatioReadable(), 2)?></td>
-                    <td>&euro;<?=round($this->calculator->getProfitRatioSpecificReadable(), 2)?></td>
-                    <td><?=$this->calculator->getRatioEfficiency()?>%</td>
+                    <td>&euro;<?=round($totalcost, 2)?></td>
+                    <td>&euro;<?=round($profit, 2)?></td>
+                    <td><?=$efficiency?>%</td>
                 </tr>
                 <?php
                 }
@@ -83,7 +78,7 @@
             </tbody>
         </table>
     </div>
-    <?php $this->googleChart->render(); ?>
+    <?php $this->googleChart->showGoogleChart();  ?>
 </div>
 </body>
 </html>

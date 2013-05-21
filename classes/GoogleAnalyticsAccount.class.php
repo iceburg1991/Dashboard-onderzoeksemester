@@ -32,7 +32,6 @@ class GoogleAnalyticsAccount
 
     /**
      * Sets the accountId
-     *
      * @param accountId
      */
     public function setAccountId($accountId)
@@ -50,7 +49,6 @@ class GoogleAnalyticsAccount
 
     /**
      * Sets name
-     *
      * @param name
      */
     public function setName($name)
@@ -68,7 +66,6 @@ class GoogleAnalyticsAccount
 
     /**
      * Sets Properties
-     *
      * @param array
      */
     public function setProperties(array $properties)
@@ -87,7 +84,6 @@ class GoogleAnalyticsAccount
 
     /**
      * Adds Property object to array
-     *
      * @param Property
      */
     public function addProperty(Property $webproperty)
@@ -97,9 +93,7 @@ class GoogleAnalyticsAccount
 
     /**
      * Returns a Property object by its Id.
-     *
      * @param $webpropertyId
-     *
      * @return mixed
      */
     public function getPropertyById($webpropertyId)
@@ -263,9 +257,7 @@ class Property
 
     /**
      * Returns a profile by its Id
-     *
      * @param $profileId
-     *
      * @return mixed
      */
     public function getProfileById($profileId)
@@ -273,7 +265,6 @@ class Property
         return $this->_profiles[$profileId];
     }
 }
-
 /**
  * Gets all the GoogleAnalytics accounts, properties en profiles linked to the Google account
  */

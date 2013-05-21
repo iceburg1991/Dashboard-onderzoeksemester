@@ -52,12 +52,12 @@ class MagentoProduct extends RedBean_SimpleModel
     private $_name;
 
     /**
-     * @param int    $magentoId
-     * @param string $productSku
-     * @param float  $baseCost
-     * @param float  $price
-     * @param float  $tax_amount
-     * @param float  $quantity
+     * @param int      $magentoId
+     * @param string   $productSku
+     * @param float    $baseCost
+     * @param float    $price
+     * @param float    $tax_amount
+     * @param float    $quantity
      */
     public function __construct($magentoId, $productSku, $name, $baseCost, $price, $tax_amount, $quantity)
     {

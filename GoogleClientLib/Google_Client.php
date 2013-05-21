@@ -168,7 +168,6 @@ class Google_Client
     /**
      * Set the OAuth 2.0 access token using the string that resulted from calling authenticate()
      * or Google_Client#getAccessToken().
-     *
      * @param string $accessToken JSON encoded string containing in the following format:
      * {"access_token":"TOKEN", "refresh_token":"TOKEN", "token_type":"Bearer",
      *  "expires_in":3600, "id_token":"TOKEN", "created":1320790426}
@@ -183,7 +182,6 @@ class Google_Client
 
     /**
      * Set the type of Auth class the client should use.
-     *
      * @param string $authClassName
      */
     public function setAuthClass($authClassName)
@@ -225,7 +223,6 @@ class Google_Client
     /**
      * Set the developer key to use, these are obtained through the API Console.
      * @see http://code.google.com/apis/console-help/#generatingdevkeys
-     *
      * @param string $developerKey
      */
     public function setDeveloperKey($developerKey)
@@ -236,7 +233,6 @@ class Google_Client
     /**
      * Set OAuth 2.0 "state" parameter to achieve per-request customization.
      * @see http://tools.ietf.org/html/draft-ietf-oauth-v2-22#section-3.1.2.2
-     *
      * @param string $state
      */
     public function setState($state)
@@ -266,7 +262,6 @@ class Google_Client
 
     /**
      * Set the application name, this is included in the User-Agent HTTP clients.
-     *
      * @param string $applicationName
      */
     public function setApplicationName($applicationName)
@@ -277,7 +272,6 @@ class Google_Client
 
     /**
      * Set the OAuth 2.0 Client ID.
-     *
      * @param string $clientId
      */
     public function setClientId($clientId)
@@ -297,7 +291,6 @@ class Google_Client
 
     /**
      * Set the OAuth 2.0 Client Secret.
-     *
      * @param string $clientSecret
      */
     public function setClientSecret($clientSecret)
@@ -317,7 +310,6 @@ class Google_Client
 
     /**
      * Set the OAuth 2.0 Redirect URI.
-     *
      * @param string $redirectUri
      */
     public function setRedirectUri($redirectUri)
@@ -337,9 +329,7 @@ class Google_Client
 
     /**
      * Fetches a fresh OAuth 2.0 access token with the given refresh token.
-     *
      * @param string $refreshToken
-     *
      * @return void
      */
     public function refreshToken($refreshToken)
@@ -351,9 +341,7 @@ class Google_Client
      * Revoke an OAuth2 access token or refresh token. This method will revoke the current access
      * token, if a token isn't provided.
      * @throws Google_AuthException
-     *
      * @param string|null $token The token (access token or a refresh token) that should be revoked.
-     *
      * @return boolean Returns True if the revocation was successful, otherwise False.
      */
     public function revokeToken($token = null)
@@ -365,9 +353,7 @@ class Google_Client
      * Verify an id_token. This method will verify the current id_token, if one
      * isn't provided.
      * @throws Google_AuthException
-     *
      * @param string|null $token The token (id_token) that should be verified.
-     *
      * @return Google_LoginTicket Returns an apiLoginTicket if the verification was
      * successful.
      */
@@ -378,7 +364,6 @@ class Google_Client
 
     /**
      * @param Google_AssertionCredentials $creds
-     *
      * @return void
      */
     public function setAssertionCredentials(Google_AssertionCredentials $creds)
@@ -390,7 +375,6 @@ class Google_Client
      * This function allows you to overrule the automatically generated scopes,
      * so that you can ask for more or less permission in the auth flow
      * Set this before you call authenticate() though!
-     *
      * @param array $scopes, ie: array('https://www.googleapis.com/auth/plus.me', 'https://www.googleapis.com/auth/moderator')
      */
     public function setScopes($scopes)
@@ -412,8 +396,7 @@ class Google_Client
      * Declare if objects should be returned by the api service classes.
      *
      * @param boolean $useObjects True if objects should be returned by the service classes.
-     *                            False if associative arrays should be returned (default behavior).
-     *
+     * False if associative arrays should be returned (default behavior).
      * @experimental
      */
     public function setUseObjects($useObjects)
@@ -426,8 +409,7 @@ class Google_Client
      * Declare if objects should be returned by the api service classes.
      *
      * @param boolean $useBatch True if the experimental batch support should
-     *                          be enabled. Defaults to False.
-     *
+     * be enabled. Defaults to False.
      * @experimental
      */
     public function setUseBatch($useBatch)
@@ -489,8 +471,8 @@ class Google_ServiceException extends Google_Exception
     /**
      * Override default constructor to add ability to set $errors.
      *
-     * @param string         $message
-     * @param int            $code
+     * @param string $message
+     * @param int $code
      * @param Exception|null $previous
      * @param [{string, string}] errors List of errors returned in an HTTP
      * response.  Defaults to [].
