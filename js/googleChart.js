@@ -44,9 +44,9 @@ function drawChart() {
             var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
             // Set chart options
             var options = {
-                'title': 'Winst van de marketing kanalen',
-                'width': 400,
-                'height': 300
+                'title': 'Omzetverdeling',
+                'width': 500,
+                'height': 500
             };
 
             chart.draw(data, options);
