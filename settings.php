@@ -50,6 +50,13 @@ if (isset($_POST['submit']))
                     <tr>
                         <td colspan="2"><h2>Instellingen</h2></td>
                     </tr>
+                    <?php $channels = R::findAll('marketingchannel'); ?>
+                    <?php foreach ($channels as $channel){?>
+                    <tr>
+                        <td>Klik kosten <?php print_r($channel->name); ?>:</td>
+                        <td><input type="text" name="cost" required placeholder="e.g: &euro;5000" value="" /></td>
+                    </tr>
+                    <?php } ?>
                     <tr>
                         <td>Vaste lasten per maand:</td>
                         <td><input type="text" name="cost" required placeholder="e.g: &euro;5000" value="<?php echo $settings->costs; ?>" /></td>

@@ -33,10 +33,16 @@ require_once dirname(__FILE__) . '/includes/nav.php';
     <div class="onepcssgrid-1200">
         <?php
         require_once dirname(__FILE__) . '/dashboard/channeldashboard_init.php';
-
-        $dashboard_init = new ChannelDashboard_init();
-        $dashboard_init->showDashboard($_GET['id'], $scope);
-
+        if (isset($_REQUEST['id'])) {
+            $dashboard_init = new ChannelDashboard_init();
+            $dashboard_init->showDashboard($_REQUEST['id'], $scope);
+        } else {
+            $marketingChannels = R::findAll('marketingchannel');
+            echo "<p>please choose a marketingchannel</p>";
+            foreach ($marketingChannels as $marketingChannel) {
+                echo "<a href=\"channel.php?id=" . $marketingChannel->id . "\">" . $marketingChannel->name . "</a> <br />";
+            }
+        }
         ?>
     </div>
 </section>

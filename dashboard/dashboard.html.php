@@ -47,7 +47,6 @@
             <tr>
                 <th>Marketing kanaal</th>
                 <th>Omzet</th>
-                <th>Vaste lasten</th>
                 <th>Kosten</th>
                 <th>Winst</th>
                 <th>Rendement</th>
