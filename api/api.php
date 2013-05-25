@@ -12,7 +12,7 @@ error_reporting(-1);
 require_once dirname(__FILE__) . '/../config.php';
 
 // RedBean PHP
-require ('../RedbeanPHPLib/rb.php');
+require('../RedbeanPHPLib/rb.php');
 R::setup('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME . '', '' . DB_USERNAME . '', '' . DB_PASS . '');
 
 if (isset($_POST['action']) && $_POST['action'] == 'get-chart-data') {

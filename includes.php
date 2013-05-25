@@ -10,7 +10,7 @@
 require_once dirname(__FILE__) . '/config.php';
 
 // RedBean PHP
-require('RedbeanPHPLib/rb.php');
+require_once dirname(__FILE__) . '/Lib/RedbeanPHPLib/rb.php';
 R::setup('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME . '', '' . DB_USERNAME . '', '' . DB_PASS . '');
 
 // Settings
@@ -21,20 +21,19 @@ $settings = R::load('settings', 1);
 $time = time();
 $ratio = cal_days_in_month(CAL_GREGORIAN, date('n', $time), date('Y', $time));
 
-if (isset($_GET['from'])) {
-    if ($_GET['from'] == 'week') {
-        // Do not round, otherwise this is always 4, although its not exact 4.
-        $ratio = $ratio / 7;
-    } else if ($_GET['from'] == 'month') {
-        $ratio = 1;
-    }
+if (isset($_COOKIE['scope'])) {
+    $ratio = $_COOKIE['scope'];
+} else {
+    $scope = 1;
+    setcookie('scope', $scope);
 }
+
 
 define("COSTS", ($settings->costs / $ratio));
 
 // Google Client and Google Analytics Service
-require_once dirname(__FILE__) . '/GoogleClientLib/Google_Client.php';
-require_once dirname(__FILE__) . '/GoogleClientLib/contrib/Google_AnalyticsService.php';
+require_once dirname(__FILE__) . '/Lib/GoogleClientLib/Google_Client.php';
+require_once dirname(__FILE__) . '/Lib/GoogleClientLib/contrib/Google_AnalyticsService.php';
 require_once dirname(__FILE__) . '/clients/GoogleClient.php';
 
 // Google Account, property and profile
@@ -50,7 +49,7 @@ require_once dirname(__FILE__) . '/GoogleAnalyticsMetrics/OrderPerMarketingChann
 require_once dirname(__FILE__) . '/classes/Calculator.class.php';
 
 // MagentoClient
-require_once dirname(__FILE__) . '/MagentoClientLib/MagentoClient.php';
+require_once dirname(__FILE__) . '/Lib/MagentoClientLib/MagentoClient.php';
 require_once dirname(__FILE__) . '/clients/MagentoClient.php';
 require_once dirname(__FILE__) . '/classes/MagentoProduct.class.php';
 require_once dirname(__FILE__) . '/classes/MagentoOrder.class.php';

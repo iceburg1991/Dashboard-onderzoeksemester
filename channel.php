@@ -10,13 +10,6 @@
 // Session start
 session_start();
 
-if (isset($_COOKIE['scope'])) {
-    $scope = $_COOKIE['scope'];
-} else {
-    $scope = 1;
-    setcookie('scope', $scope);
-}
-
 // Turn on all error reporting
 error_reporting(-1);
 

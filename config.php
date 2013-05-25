@@ -12,10 +12,10 @@ date_default_timezone_set("Europe/Amsterdam");
 
 // Google Console Credentials
 define('ACCESS_TYPE', 'offline');
-define('APPLICATION_NAME', 'Dashboard proof of concept');
-define('CLIENT_ID', '814565602276.apps.googleusercontent.com');
+define('APPLICATION_NAME', 'esser-emmerik Rendement berekening API');
+define('CLIENT_ID', '460555925231.apps.googleusercontent.com');
 define('CLIENT_SECRET', 'EkMosZD60pI5At0yATGtgp7M');
-define('REDIRECT_URI', 'http://' . $_SERVER["HTTP_HOST"] . $_SERVER['PHP_SELF']);
+define('REDIRECT_URI', 'http://dashboard.esser-emmerik.hugozonderland.nl/index.php');
 define('DEVELOPER_KEY', 'AIzaSyBiyh3JZfDQ_ZFnx0hSKAayNG2IKzfRi4U');
 
 //Database settings
