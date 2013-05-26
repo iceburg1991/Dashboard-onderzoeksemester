@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-require '././config.php';
+require '/home/ocrtxndf/domains/hugozonderland.nl/public_html/dashboard.esser-emmerik/config.php';
 
 global $apiConfig;
 

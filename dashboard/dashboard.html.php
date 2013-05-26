@@ -30,8 +30,8 @@
                     ?>
                     <td>
                         <div>
-                            <h1><strong>Kapodt</strong></h1>
-                            <h1><strong>Ga eens producten verkopen</strong></h1>
+                            <h1><strong>Geen verkoop resultaten</strong></h1>
+                            <h1><strong>Probeer een andere scope (dag, week, maand)</strong></h1>
                         </div>
                     </td>
                     <?php
