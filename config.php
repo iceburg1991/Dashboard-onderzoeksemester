@@ -19,8 +19,11 @@ define('REDIRECT_URI',      'http://dashboard.esser-emmerik.hugozonderland.nl/in
 define('DEVELOPER_KEY',     'AIzaSyBiyh3JZfDQ_ZFnx0hSKAayNG2IKzfRi4U');
 
 //Database settings
-define('DB_HOST', 'localhost');
-define('DB_NAME', 'ocrtxndf_dashboard');
-define('DB_USERNAME', 'ocrtxndf_dash');
-define('DB_PASS', '2ZjQCuTR');
+define('DB_HOST',           'localhost');
+define('DB_NAME',           'ocrtxndf_dashboard');
+define('DB_USERNAME',       'ocrtxndf_dash');
+define('DB_PASS',           '2ZjQCuTR');
+
+// Variables
+define('WEBSITE_URL',       'http://dashboard.esser-emmerik.hugozonderland.nl/');
 ?>

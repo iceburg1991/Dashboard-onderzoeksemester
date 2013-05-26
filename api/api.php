@@ -8,11 +8,13 @@
  */
 // Turn on all error reporting
 error_reporting(-1);
+
 // Config file
 require_once dirname(__FILE__) . '/../config.php';
 
 // RedBean PHP
-require('../RedbeanPHPLib/rb.php');
+require('../Lib/RedbeanPHPLib/rb.php');
+
 R::setup('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME . '', '' . DB_USERNAME . '', '' . DB_PASS . '');
 
 if (isset($_POST['action']) && $_POST['action'] == 'get-chart-data') {
@@ -31,15 +33,15 @@ function toJsonString($object)
 
 function getMarketingChannelRev($from, $to)
 {
-    $q = "SELECT
-                mc.id AS id,
-                mc.name AS name,
-                SUM(mcr.channel_revenue) AS revenue
-                FROM marketingchannel mc, marketingchannelrevenue mcr
-                WHERE mcr.timestamp >= \"" . $from . "\"
-                AND mcr.timestamp <= \"" . $to . "\"
-                AND mc.id = mcr.marketingchannel_id
-                GROUP BY mc.name";
+    $q = "  SELECT
+            mc.id AS id,
+            mc.name AS name,
+            SUM(mcr.channel_revenue) AS revenue
+            FROM marketingchannel mc, marketingchannelrevenue mcr
+            WHERE mcr.timestamp >= \"" . $from . "\"
+            AND mcr.timestamp <= \"" . $to . "\"
+            AND mc.id = mcr.marketingchannel_id
+            GROUP BY mc.name";
 
     // Data
     $rows = R::getAll($q);

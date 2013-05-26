@@ -1,7 +1,7 @@
 <html>
 <head>
-    <link rel="stylesheet" type="text/css" href="../css/bootstrap.css">
-    <link rel="stylesheet" type="text/css" href="../css/dashboard.css">
+    <link rel="stylesheet" type="text/css" href="<?=WEBSITE_URL?>css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="<?=WEBSITE_URL?>/css/dashboard.css">
 </head>
 <body>
 <div id='dashboard'>
@@ -66,7 +66,7 @@
                     $efficiency = round($profit / $totalcost * 100, 2);
                 ?>
                 <tr class="<?= ($efficiency > 0) ? 'success' : 'error' ?>">
-                    <td><strong><a href="channel.php?id=<?= $data->id?>&from=<?=$_COOKIE['scope']?>"><?=$data->name?></a></strong></td>
+                    <td><strong><a href="channel.php?id=<?= $data->id?>"><?=$data->name?></a></strong></td>
                     <td>&euro;<?=round($data->channelrevenue, 2)?></td>
                     <td>&euro;<?=round($cost, 2)?></td>
                     <td>&euro;<?=round($totalcost, 2)?></td>

@@ -42,7 +42,7 @@ class Dashboard
                 GROUP BY mc.name";
 
         // Debug
-        //echo $q;
+        // echo $q;
 
         // Data
         $rows = R::getAll($q);
@@ -76,7 +76,7 @@ class Dashboard
                 GROUP BY mc.id";
 
         // Debug
-        echo $q;
+        //echo $q;
 
         // Data
         $rows = R::getAll($q);
@@ -94,8 +94,8 @@ class Dashboard
     private function createGoogleChart()
     {
         require_once dirname(__FILE__) . '/googleChart_init.php';
-        $googleChart = new GoogleChart_init();
-        $this->googleChart = get_object_vars($googleChart);
+        $this->googleChart = new GoogleChart_init();
+       // $this->googleChart = get_object_vars($googleChart);
     }
 
     private function getTotalRevenue()

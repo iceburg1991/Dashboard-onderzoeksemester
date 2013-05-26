@@ -16,16 +16,21 @@ R::setup('mysql:host=' . DB_HOST . ';dbname=' . DB_NAME . '', '' . DB_USERNAME .
 // Settings
 $settings = R::load('settings', 1);
 
+if (isset($_COOKIE['scope'])) {
+    $scope = $_COOKIE['scope'];
+} else {
+    $scope = 1;
+    setcookie('scope', $scope);
+}
+
 // Sets the COST by ratio (day,     week,   month)
 // ratio:         ie        30,     4       1
 $time = time();
 $ratio = cal_days_in_month(CAL_GREGORIAN, date('n', $time), date('Y', $time));
-
-if (isset($_COOKIE['scope'])) {
-    $ratio = $_COOKIE['scope'];
-} else {
-    $scope = 1;
-    setcookie('scope', $scope);
+if ($scope == 7) {
+    $ratio = 4;
+} elseif ($scope == 31) {
+    $ratio = 1;
 }
 
 

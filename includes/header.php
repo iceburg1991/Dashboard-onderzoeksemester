@@ -16,8 +16,8 @@
     <link rel="stylesheet" id="rwcsscolor-css"
           href="http://www.presteren.nu/wp-content/themes/creolio-child/rw-colors.css?ver=1.1" type="text/css"
           media="all">
-    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script type="text/javascript" src="../js/script.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="<?=WEBSITE_URL?>js/script.js"></script>
     <link rel="stylesheet" href="css/style_override.css">
     <title>esser-emmerik | Rendements berekening</title>
 </head>

@@ -57,9 +57,16 @@
                     <?php
                 }
             }
+            else
+            {
+                ?>
+                <td colspan="13">Geen producten verkocht, probeer een andere scope (dag, week, maand)</td>
+                <?php
+            }
             ?>
             </tbody>
         </table>
+        <a href="<?=WEBSITE_URL?>index.php">Terug naar de marketingkanalen</a>
     </div>
 </div>
 </body>
